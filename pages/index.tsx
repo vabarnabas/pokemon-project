@@ -1,12 +1,13 @@
 import type { NextPage } from "next"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { usePokemon } from "../data/usePokemon"
 
 const Home: NextPage = () => {
   const { getPokemon, pokemonData } = usePokemon()
 
   const [battleArray, setBattleArray] = useState<string[]>([])
+  const [typeTrump, setTypeTrump] = useState("")
 
   const togglePokemon = (pokemon: string) => {
     battleArray.includes(pokemon)
@@ -14,17 +15,31 @@ const Home: NextPage = () => {
       : battleArray.length < 2 && setBattleArray([...battleArray, pokemon])
   }
 
+  useEffect(() => {
+    if (battleArray.length === 2) {
+      const pokemons = [getPokemon(battleArray[0]), getPokemon(battleArray[1])]
+      const attackingType = pokemons[0].types[0]
+      const defensiveType = pokemons[1].types[0]
+      const effectiveness = pokemons[1].types[0].defensive[attackingType.id - 1]
+      setTypeTrump(JSON.stringify(effectiveness))
+    } else {
+      setTypeTrump("")
+    }
+  }, [battleArray])
+
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center">
       <p className="mb-4 font-semibold text-blue-500">
-        {JSON.stringify(battleArray)}
+        {JSON.stringify(battleArray) + " " + typeTrump}
       </p>
       <div className="grid grid-cols-6 gap-4">
         {pokemonData.map((pokemon) => (
           <div
             onClick={() => togglePokemon(pokemon.name)}
             key={pokemon.id}
-            className="flex flex-col items-center justify-center border rounded-md py-2 px-4"
+            className={`flex flex-col items-center justify-center border rounded-md py-2 px-4 cursor-pointer ${
+              battleArray.includes(pokemon.name) ? "border-blue-500" : ""
+            }`}
           >
             <p className="text-blue-500 text-sm">{`#${pokemon.id}`}</p>
             <div className="relative h-32 w-32">
