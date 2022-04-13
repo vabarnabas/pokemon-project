@@ -41,6 +41,7 @@ export interface PokemonType {
     steel: number,
     fairy: number
   ]
+  sprite: string
 }
 
 export const useTypes = () => {
@@ -50,12 +51,14 @@ export const useTypes = () => {
       name: "???",
       defensive: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       offensive: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      sprite: "???",
     },
     {
       id: 1,
       name: "Normal",
       defensive: [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
       offensive: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0.5, 1],
+      sprite: "NORMAL",
     },
     {
       id: 2,
@@ -64,12 +67,14 @@ export const useTypes = () => {
         1, 0.5, 2, 0.5, 1, 0.5, 1, 1, 2, 1, 1, 0.5, 2, 1, 1, 1, 0.5, 0.5,
       ],
       offensive: [1, 0.5, 0.5, 2, 1, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2, 1],
+      sprite: "FIRE",
     },
     {
       id: 3,
       name: "Water",
       defensive: [1, 0.5, 0.5, 2, 2, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 1],
       offensive: [1, 2, 0.5, 0.5, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1, 1],
+      sprite: "WATER",
     },
     {
       id: 4,
@@ -78,18 +83,21 @@ export const useTypes = () => {
       offensive: [
         1, 0.5, 2, 0.5, 1, 1, 1, 0.5, 2, 0.5, 1, 0.5, 2, 1, 0.5, 1, 0.5, 1,
       ],
+      sprite: "GRASS",
     },
     {
       id: 5,
       name: "Electric",
       defensive: [1, 1, 1, 1, 0.5, 1, 1, 1, 2, 0.5, 1, 1, 1, 1, 1, 1, 0.5, 1],
       offensive: [1, 1, 2, 0.5, 0.5, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5, 1, 1, 1],
+      sprite: "ELECTRIC",
     },
     {
       id: 6,
       name: "Ice",
       defensive: [1, 2, 1, 1, 1, 0.5, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
       offensive: [1, 0.5, 0.5, 2, 1, 0.5, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5, 1],
+      sprite: "ICE",
     },
     {
       id: 7,
@@ -98,6 +106,7 @@ export const useTypes = () => {
       offensive: [
         2, 1, 1, 1, 1, 2, 1, 0.5, 1, 0.5, 0.5, 0.5, 2, 0, 1, 2, 2, 0.5,
       ],
+      sprite: "FIGHTING",
     },
     {
       id: 8,
@@ -106,20 +115,62 @@ export const useTypes = () => {
         1, 1, 1, 0.5, 1, 1, 0.5, 0.5, 2, 1, 2, 0.5, 1, 1, 1, 1, 1, 0.5,
       ],
       offensive: [1, 1, 1, 2, 1, 1, 1, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 1, 1, 0, 2],
+      sprite: "POISON",
     },
     {
       id: 9,
       name: "Ground",
       defensive: [1, 1, 2, 2, 0, 2, 1, 0.5, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 1],
       offensive: [1, 2, 1, 0.5, 2, 1, 1, 2, 1, 0, 1, 0.5, 2, 1, 1, 1, 2, 1],
+      sprite: "GROUND",
     },
     {
       id: 10,
       name: "Flying",
       defensive: [1, 1, 1, 0.5, 2, 2, 0.5, 1, 0, 1, 1, 0.5, 2, 1, 1, 1, 1, 1],
       offensive: [1, 1, 1, 2, 0.5, 1, 2, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 0.5, 1],
+      sprite: "FLYING",
+    },
+    {
+      id: 11,
+      name: "Psychic",
+      defensive: [1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 0.5, 2, 1, 2, 1, 2, 1, 1],
+      offensive: [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5, 1, 1, 1, 1, 0, 0.5, 1],
+      sprite: "PSYCHIC",
+    },
+    {
+      id: 12,
+      name: "Bug",
+      defensive: [1, 2, 1, 0.5, 1, 1, 0.5, 1, 0.5, 2, 1, 1, 2, 1, 1, 1, 1, 1],
+      offensive: [
+        1, 0.5, 1, 2, 1, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5, 0.5,
+      ],
+      sprite: "BUG",
+    },
+    {
+      id: 13,
+      name: "Rock",
+      defensive: [0.5, 0.5, 2, 2, 1, 1, 2, 0.5, 2, 0.5, 1, 1, 1, 1, 1, 1, 2, 1],
+      offensive: [1, 2, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 0.5, 1],
+      sprite: "ROCK",
+    },
+    {
+      id: 14,
+      name: "Ghost",
+      defensive: [0, 1, 1, 1, 1, 1, 0, 0.5, 1, 1, 1, 0.5, 1, 2, 1, 2, 1, 1],
+      offensive: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 1],
+      sprite: "GHOST",
     },
   ]
+
+  /**
+   * Gets a specific type's sprite.
+   * @param {string} fileName
+   * @returns Type's sprite.
+   */
+  const getTypeSprite = (fileName: string) => {
+    return `/images/types/${fileName}.png`
+  }
 
   const getType = (identifier: string | number) => {
     return typesData[
@@ -131,5 +182,5 @@ export const useTypes = () => {
     ]
   }
 
-  return { typesData, getType }
+  return { typesData, getType, getTypeSprite }
 }

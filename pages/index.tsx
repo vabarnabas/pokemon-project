@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 import { useImporter } from "../data/useImporter"
 
 const Home: NextPage = () => {
-  const { getPokemon, pokemonData, getPokemonSprite } = useImporter()
+  const { getPokemon, pokemonData, getPokemonSprite, getTypeSprite } =
+    useImporter()
 
   const [battleArray, setBattleArray] = useState<string[]>([])
   const [typeTrump, setTypeTrump] = useState("")
@@ -38,7 +39,7 @@ const Home: NextPage = () => {
       <p className="mb-4 font-semibold text-blue-500">
         {JSON.stringify(battleArray) + " " + typeTrump}
       </p>
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-5 gap-4">
         {pokemonData.map((pokemon) => (
           <div
             onClick={() => togglePokemon(pokemon.name)}
@@ -52,11 +53,16 @@ const Home: NextPage = () => {
               <Image src={getPokemonSprite(pokemon.sprite)} layout="fill" />
             </div>
             <p className="font-semibold text-blue-500">{pokemon.name}</p>
-            {pokemon.types.map((type) => (
-              <p className="text-xs px-2 py-0.5 bg-slate-200 rounded-md">
-                {type?.name}
-              </p>
-            ))}
+            <div className="flex items-center justify-center space-x-2">
+              {pokemon.types.map((type) => (
+                <div className="relative h-4 w-8">
+                  <Image
+                    layout="fill"
+                    src={getTypeSprite(type?.sprite || "")}
+                  />
+                </div>
+              ))}
+            </div>
             <div className="mt-1 text-xs grid grid-cols-3 gap-1">
               <div className="text-center flex flex-col items-center justify-center">
                 <p className="">HP</p>
@@ -78,6 +84,9 @@ const Home: NextPage = () => {
                   className="bg-slate-100 py-1 px-1 rounded-md flex flex-col items-center justify-center"
                 >
                   <p className=" text-center text-sm">{move.name}</p>
+                  <div className="relative h-4 w-8">
+                    <Image layout="fill" src={getTypeSprite(move.type.name)} />
+                  </div>
                   <div className="flex space-x-2 mt-0.5 px-1">
                     <div className="flex flex-col items-center justify-center text-xs">
                       <p className="">Power</p>

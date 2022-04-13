@@ -4,7 +4,7 @@ import { usePokemon } from "./usePokemon"
 import { useTypes } from "./useTypes"
 
 export const useImporter = () => {
-  const { typesData, getType } = useTypes()
+  const { typesData, getType, getTypeSprite } = useTypes()
   const { movesData, getMove } = useMoves()
   const { pokemonData, getPokemon, getPokemonSprite } = usePokemon()
   const { itemsData, getItem } = useItems()
@@ -14,6 +14,7 @@ export const useImporter = () => {
     movesData,
     pokemonData,
     getType,
+    getTypeSprite,
     getMove,
     getPokemon,
     getPokemonSprite,
