@@ -6,7 +6,8 @@ import { useTypes } from "./useTypes"
 export const useImporter = () => {
   const { typesData, getType, getTypeSprite } = useTypes()
   const { movesData, getMove } = useMoves()
-  const { pokemonData, getPokemon, getPokemonSprite } = usePokemon()
+  const { pokemonData, getPokemon, getPokemonSprite, generatePokemon } =
+    usePokemon()
   const { itemsData, getItem } = useItems()
 
   return {
@@ -18,6 +19,7 @@ export const useImporter = () => {
     getMove,
     getPokemon,
     getPokemonSprite,
+    generatePokemon,
     itemsData,
     getItem,
   }

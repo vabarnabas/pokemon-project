@@ -1,11 +1,17 @@
 import type { NextPage } from "next"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useImporter } from "../data/useImporter"
 
 const Home: NextPage = () => {
   const { getPokemon, pokemonData, getPokemonSprite, getTypeSprite } =
     useImporter()
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push("/route1")
+  }, [])
 
   const [battleArray, setBattleArray] = useState<string[]>([])
   const [typeTrump, setTypeTrump] = useState("")
@@ -43,12 +49,11 @@ const Home: NextPage = () => {
         {pokemonData.map((pokemon) => (
           <div
             onClick={() => togglePokemon(pokemon.name)}
-            key={pokemon.id}
+            key={pokemon.dexId.toString() + (pokemon?.form || "")}
             className={`flex flex-col items-center justify-center border rounded-md py-2 px-4 cursor-pointer ${
               battleArray.includes(pokemon.name) ? "border-blue-500" : ""
             }`}
           >
-            <p className="text-blue-500 text-sm">{`#${pokemon.id}`}</p>
             <div className="relative h-32 w-32">
               <Image src={getPokemonSprite(pokemon.sprite)} layout="fill" />
             </div>

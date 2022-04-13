@@ -1,8 +1,8 @@
 import { PokemonMove, useMoves } from "./useMoves"
 import { PokemonType, useTypes } from "./useTypes"
+import { v4 as uuidv4 } from "uuid"
 
 export interface BasePokemon {
-  id: number
   dexId: number
   form?: number
   name: string
@@ -15,6 +15,7 @@ export interface BasePokemon {
 }
 
 export interface Pokemon {
+  id: string
   baseData: BasePokemon
   level: number
   ivs: [hp: number, attack: number, defense: number]
@@ -29,7 +30,6 @@ export const usePokemon = () => {
 
   const pokemonData: BasePokemon[] = [
     {
-      id: 1,
       dexId: 133,
       name: "Eevee",
       hp: 55,
@@ -40,7 +40,6 @@ export const usePokemon = () => {
       sprite: "EEVEE",
     },
     {
-      id: 2,
       dexId: 136,
       name: "Flareon",
       hp: 65,
@@ -51,7 +50,6 @@ export const usePokemon = () => {
       sprite: "FLAREON",
     },
     {
-      id: 3,
       dexId: 134,
       name: "Vaporeon",
       hp: 130,
@@ -62,7 +60,6 @@ export const usePokemon = () => {
       sprite: "VAPOREON",
     },
     {
-      id: 4,
       dexId: 470,
       name: "Leafeon",
       hp: 65,
@@ -73,7 +70,6 @@ export const usePokemon = () => {
       sprite: "LEAFEON",
     },
     {
-      id: 5,
       dexId: 135,
       name: "Jolteon",
       hp: 65,
@@ -84,7 +80,6 @@ export const usePokemon = () => {
       sprite: "JOLTEON",
     },
     {
-      id: 6,
       dexId: 361,
       name: "Snorunt",
       hp: 50,
@@ -95,7 +90,6 @@ export const usePokemon = () => {
       sprite: "SNORUNT",
     },
     {
-      id: 7,
       dexId: 296,
       name: "Makuhita",
       hp: 70,
@@ -106,7 +100,6 @@ export const usePokemon = () => {
       sprite: "MAKUHITA",
     },
     {
-      id: 8,
       dexId: 23,
       name: "Ekans",
       hp: 35,
@@ -117,7 +110,6 @@ export const usePokemon = () => {
       sprite: "EKANS",
     },
     {
-      id: 9,
       dexId: 328,
       name: "Trapinch",
       hp: 45,
@@ -128,18 +120,6 @@ export const usePokemon = () => {
       sprite: "TRAPINCH",
     },
     {
-      id: 10,
-      dexId: 16,
-      name: "Pidgey",
-      hp: 40,
-      attack: 40,
-      defense: 35,
-      types: [getType("Normal"), getType("Flying")],
-      movePool: [getMove("Tackle")],
-      sprite: "PIDGEY",
-    },
-    {
-      id: 11,
       dexId: 63,
       name: "Abra",
       hp: 25,
@@ -150,7 +130,6 @@ export const usePokemon = () => {
       sprite: "ABRA",
     },
     {
-      id: 12,
       dexId: 167,
       name: "Spinarak",
       hp: 45,
@@ -161,7 +140,6 @@ export const usePokemon = () => {
       sprite: "SPINARAK",
     },
     {
-      id: 13,
       dexId: 246,
       name: "Larvitar",
       hp: 50,
@@ -172,7 +150,6 @@ export const usePokemon = () => {
       sprite: "LARVITAR",
     },
     {
-      id: 14,
       dexId: 355,
       name: "Duskull",
       hp: 20,
@@ -183,7 +160,6 @@ export const usePokemon = () => {
       sprite: "DUSKULL",
     },
     {
-      id: 15,
       dexId: 610,
       name: "Axew",
       hp: 45,
@@ -194,7 +170,56 @@ export const usePokemon = () => {
       sprite: "AXEW",
     },
     {
-      id: 16,
+      dexId: 81,
+      name: "Magnemite",
+      hp: 25,
+      attack: 65,
+      defense: 65,
+      types: [getType("Electric"), getType("Steel")],
+      movePool: [getMove("Tackle")],
+      sprite: "MAGNEMITE",
+    },
+    {
+      dexId: 280,
+      name: "Ralts",
+      hp: 30,
+      attack: 35,
+      defense: 30,
+      types: [getType("Psychic"), getType("Fairy")],
+      movePool: [getMove("Tackle")],
+      sprite: "RALTS",
+    },
+    {
+      dexId: 16,
+      name: "Pidgey",
+      hp: 40,
+      attack: 40,
+      defense: 35,
+      types: [getType("Normal"), getType("Flying")],
+      movePool: [getMove("Tackle")],
+      sprite: "PIDGEY",
+    },
+    {
+      dexId: 17,
+      name: "Pidgeotto",
+      hp: 60,
+      attack: 55,
+      defense: 50,
+      types: [getType("Normal"), getType("Flying")],
+      movePool: [getMove("Tackle")],
+      sprite: "PIDGEOTTO",
+    },
+    {
+      dexId: 18,
+      name: "Pidgeot",
+      hp: 85,
+      attack: 75,
+      defense: 70,
+      types: [getType("Normal"), getType("Flying")],
+      movePool: [getMove("Tackle")],
+      sprite: "PIDGEOT",
+    },
+    {
       dexId: 263,
       form: 1,
       name: "Galarian Zigzagoon",
@@ -206,42 +231,58 @@ export const usePokemon = () => {
       sprite: "ZIGZAGOON_1",
     },
     {
-      id: 17,
-      dexId: 81,
-      name: "Magnemite",
-      hp: 25,
-      attack: 65,
-      defense: 65,
-      types: [getType("Electric"), getType("Steel")],
+      dexId: 263,
+      name: "Shinx",
+      hp: 45,
+      attack: 55,
+      defense: 35,
+      types: [getType("Electric")],
       movePool: [getMove("Tackle")],
-      sprite: "MAGNEMITE",
-    },
-    {
-      id: 18,
-      dexId: 280,
-      name: "Ralts",
-      hp: 30,
-      attack: 35,
-      defense: 30,
-      types: [getType("Psychic"), getType("Fairy")],
-      movePool: [getMove("Tackle")],
-      sprite: "RALTS",
+      sprite: "SHINX",
     },
   ]
 
-  const getPokemonSprite = (fileName: string, isShiny: boolean = false) => {
-    return !isShiny ? `/images/pokemon/${fileName}.png` : ``
+  const getPokemonSprite = (fileName: string, isShiny?: boolean) => {
+    return !isShiny
+      ? `/images/pokemon/normal/${fileName}.png`
+      : `/images/pokemon/shiny/${fileName}.png`
   }
 
-  const getPokemon = (identifier: string | number) => {
+  const getPokemon = (identifier: string) => {
     return pokemonData[
       pokemonData
         .map((pokemon) => {
-          return pokemon[typeof identifier === "string" ? "name" : "id"]
+          return pokemon.name
         })
         .indexOf(identifier)
     ]
   }
 
-  return { pokemonData, getPokemon, getPokemonSprite }
+  const generatePokemon = (
+    pokemonPool: string[],
+    levelRange: number[],
+    isShiny?: boolean,
+    ivs?: [hp: number, attack: number, defense: number]
+  ): Pokemon => {
+    const pokemon = getPokemon(
+      pokemonPool[Math.floor(Math.random() * pokemonPool.length)]
+    )
+    return {
+      id: uuidv4(),
+      baseData: pokemon,
+      level: levelRange[Math.floor(Math.random() * levelRange.length)],
+      shiny: isShiny ?? 1 === Math.floor(Math.random() * 500),
+      ivs: ivs
+        ? ivs
+        : [
+            Math.floor(Math.random() * 31),
+            Math.floor(Math.random() * 31),
+            Math.floor(Math.random() * 31),
+          ],
+      move1: pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
+      move2: pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
+    }
+  }
+
+  return { pokemonData, getPokemon, getPokemonSprite, generatePokemon }
 }
