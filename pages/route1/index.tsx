@@ -66,20 +66,14 @@ const RandomPokemon = () => {
           </button>
           <div className="fixed bottom-0 inset-x-0 flex items-center justify-center py-2">
             <div className="grid grid-cols-3 grid-rows-2 gap-2">
-              {pokemonStorage.map((pokemon) => (
+              {pokemonStorage.slice(0, 6).map((pokemon) => (
                 <div
                   key={pokemon.id}
-                  onClick={() => {
+                  onDoubleClick={() => {
                     removePokemon(pokemon.id)
                   }}
-                  className="relative border rounded-md w-min hover:border-rose-500 cursor-pointer"
+                  className="relative border rounded-md w-min hover:border-blue-500 cursor-pointer overflow-hidden"
                 >
-                  <p className="absolute left-1 top-1 text-xs">
-                    {`lvl. ${pokemon.level}`}
-                  </p>
-                  {pokemon.shiny && (
-                    <p className="absolute text-xs right-1 top-1">✨</p>
-                  )}
                   <div className="relative w-16 h-16">
                     <Image
                       src={getPokemonSprite(
@@ -88,6 +82,10 @@ const RandomPokemon = () => {
                       )}
                       layout="fill"
                     />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 text-xs flex items-center justify-between px-1 pb-0.5 bg-opacity-80 bg-white">
+                    <p className="">{`lvl. ${pokemon.level}`}</p>
+                    {pokemon.shiny && <p className="">✨</p>}
                   </div>
                 </div>
               ))}
