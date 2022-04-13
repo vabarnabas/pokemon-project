@@ -4,6 +4,7 @@ import { PokemonType, useTypes } from "./useTypes"
 export interface BasePokemon {
   id: number
   dexId: number
+  form?: number
   name: string
   hp: number
   attack: number
@@ -180,6 +181,51 @@ export const usePokemon = () => {
       types: [getType("Ghost")],
       movePool: [getMove("Tackle")],
       sprite: "DUSKULL",
+    },
+    {
+      id: 15,
+      dexId: 610,
+      name: "Axew",
+      hp: 45,
+      attack: 60,
+      defense: 50,
+      types: [getType("Dragon")],
+      movePool: [getMove("Tackle")],
+      sprite: "AXEW",
+    },
+    {
+      id: 16,
+      dexId: 263,
+      form: 1,
+      name: "Galarian Zigzagoon",
+      hp: 40,
+      attack: 30,
+      defense: 40,
+      types: [getType("Dark"), getType("Normal")],
+      movePool: [getMove("Tackle")],
+      sprite: "ZIGZAGOON_1",
+    },
+    {
+      id: 17,
+      dexId: 81,
+      name: "Magnemite",
+      hp: 25,
+      attack: 65,
+      defense: 65,
+      types: [getType("Electric"), getType("Steel")],
+      movePool: [getMove("Tackle")],
+      sprite: "MAGNEMITE",
+    },
+    {
+      id: 18,
+      dexId: 280,
+      name: "Ralts",
+      hp: 30,
+      attack: 35,
+      defense: 30,
+      types: [getType("Psychic"), getType("Fairy")],
+      movePool: [getMove("Tackle")],
+      sprite: "RALTS",
     },
   ]
 
