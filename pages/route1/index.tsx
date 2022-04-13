@@ -1,10 +1,12 @@
 import Image from "next/image"
+import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 
 const RandomPokemon = () => {
+  const router = useRouter()
   const [randomPokemon, setRandomPokemon] = useState<Pokemon>({} as Pokemon)
   const { pokemonStorage, addPokemon, removePokemon } = usePokemonStorage()
   const { generatePokemon, getPokemonSprite } = useImporter()
@@ -31,8 +33,16 @@ const RandomPokemon = () => {
   }, [])
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center select-none">
-      <p className="fixed top-12 font-bold text-2xl text-blue-500">Route 1</p>
+    <div className="relative w-screen h-screen flex items-center justify-center select-none">
+      <p className="absolute top-12 font-bold text-2xl text-blue-500">
+        Route 1
+      </p>
+      <p
+        onClick={() => router.push("/storage")}
+        className="absolute top-3 right-4 text-blue-500 hover:text-blue-600 underline cursor-pointer"
+      >
+        Storage
+      </p>
       {Object.keys(randomPokemon).length > 0 && (
         <div className="flex flex-col items-center justify-center">
           <p className="">{`${randomPokemon.baseData.name} (lvl. ${
@@ -64,7 +74,7 @@ const RandomPokemon = () => {
           >
             Reroll
           </button>
-          <div className="fixed bottom-0 inset-x-0 flex items-center justify-center py-2">
+          <div className="absolute bottom-0 inset-x-0 flex items-center justify-center py-2">
             <div className="grid grid-cols-3 grid-rows-2 gap-2">
               {pokemonStorage.slice(0, 6).map((pokemon) => (
                 <div
