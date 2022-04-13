@@ -1,10 +1,10 @@
 import type { NextPage } from "next"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { usePokemon } from "../data/usePokemon"
+import { useImporter } from "../data/useImporter"
 
 const Home: NextPage = () => {
-  const { getPokemon, pokemonData } = usePokemon()
+  const { getPokemon, pokemonData, getPokemonSprite } = useImporter()
 
   const [battleArray, setBattleArray] = useState<string[]>([])
   const [typeTrump, setTypeTrump] = useState("")
@@ -19,8 +19,14 @@ const Home: NextPage = () => {
     if (battleArray.length === 2) {
       const pokemons = [getPokemon(battleArray[0]), getPokemon(battleArray[1])]
       const attackingType = pokemons[0].types[0]
-      const defensiveType = pokemons[1].types[0]
-      const effectiveness = pokemons[1].types[0].defensive[attackingType.id - 1]
+      let effectiveness
+      if (pokemons[1].types?.[1]) {
+        effectiveness =
+          pokemons[1].types[0].defensive[attackingType.id - 1] *
+          pokemons[1].types[1].defensive[attackingType.id - 1]
+      } else {
+        effectiveness = pokemons[1].types[0].defensive[attackingType.id - 1]
+      }
       setTypeTrump(JSON.stringify(effectiveness))
     } else {
       setTypeTrump("")
@@ -28,7 +34,7 @@ const Home: NextPage = () => {
   }, [battleArray])
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center">
+    <div className="w-screen h-screen flex flex-col items-center justify-start px-8 py-6 select-none overflow-x-hidden">
       <p className="mb-4 font-semibold text-blue-500">
         {JSON.stringify(battleArray) + " " + typeTrump}
       </p>
@@ -43,12 +49,14 @@ const Home: NextPage = () => {
           >
             <p className="text-blue-500 text-sm">{`#${pokemon.id}`}</p>
             <div className="relative h-32 w-32">
-              <Image src={pokemon.sprite} layout="fill" />
+              <Image src={getPokemonSprite(pokemon.sprite)} layout="fill" />
             </div>
             <p className="font-semibold text-blue-500">{pokemon.name}</p>
-            <p className="text-xs px-2 py-0.5 bg-slate-200 rounded-md">
-              {pokemon.types[0].name}
-            </p>
+            {pokemon.types.map((type) => (
+              <p className="text-xs px-2 py-0.5 bg-slate-200 rounded-md">
+                {type?.name}
+              </p>
+            ))}
             <div className="mt-1 text-xs grid grid-cols-3 gap-1">
               <div className="text-center flex flex-col items-center justify-center">
                 <p className="">HP</p>

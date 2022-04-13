@@ -19,6 +19,7 @@ export interface Pokemon {
   ivs: [hp: number, attack: number, defense: number]
   move1: PokemonMove
   move2: PokemonMove
+  shiny: boolean
 }
 
 export const usePokemon = () => {
@@ -35,7 +36,7 @@ export const usePokemon = () => {
       defense: 60,
       types: [getType("Normal")],
       movePool: [getMove("Tackle")],
-      sprite: "/images/pokemon/EEVEE.png",
+      sprite: "EEVEE",
     },
     {
       id: 2,
@@ -46,7 +47,7 @@ export const usePokemon = () => {
       defense: 85,
       types: [getType("Fire")],
       movePool: [getMove("Tackle")],
-      sprite: "/images/pokemon/FLAREON.png",
+      sprite: "FLAREON",
     },
     {
       id: 3,
@@ -57,7 +58,7 @@ export const usePokemon = () => {
       defense: 80,
       types: [getType("Water")],
       movePool: [getMove("Tackle")],
-      sprite: "/images/pokemon/VAPOREON.png",
+      sprite: "VAPOREON",
     },
     {
       id: 4,
@@ -68,7 +69,7 @@ export const usePokemon = () => {
       defense: 100,
       types: [getType("Grass")],
       movePool: [getMove("Tackle")],
-      sprite: "/images/pokemon/LEAFEON.png",
+      sprite: "LEAFEON",
     },
     {
       id: 5,
@@ -79,9 +80,68 @@ export const usePokemon = () => {
       defense: 95,
       types: [getType("Electric")],
       movePool: [getMove("Tackle")],
-      sprite: "/images/pokemon/JOLTEON.png",
+      sprite: "JOLTEON",
+    },
+    {
+      id: 6,
+      dexId: 361,
+      name: "Snorunt",
+      hp: 50,
+      attack: 50,
+      defense: 50,
+      types: [getType("Ice")],
+      movePool: [getMove("Tackle")],
+      sprite: "SNORUNT",
+    },
+    {
+      id: 7,
+      dexId: 296,
+      name: "Makuhita",
+      hp: 70,
+      attack: 40,
+      defense: 30,
+      types: [getType("Fighting")],
+      movePool: [getMove("Tackle")],
+      sprite: "MAKUHITA",
+    },
+    {
+      id: 8,
+      dexId: 23,
+      name: "Ekans",
+      hp: 35,
+      attack: 50,
+      defense: 50,
+      types: [getType("Poison")],
+      movePool: [getMove("Tackle")],
+      sprite: "EKANS",
+    },
+    {
+      id: 9,
+      dexId: 328,
+      name: "Trapinch",
+      hp: 45,
+      attack: 75,
+      defense: 45,
+      types: [getType("Ground")],
+      movePool: [getMove("Tackle")],
+      sprite: "TRAPINCH",
+    },
+    {
+      id: 10,
+      dexId: 16,
+      name: "Pdigey",
+      hp: 40,
+      attack: 40,
+      defense: 35,
+      types: [getType("Normal"), getType("Flying")],
+      movePool: [getMove("Tackle")],
+      sprite: "PIDGEY",
     },
   ]
+
+  const getPokemonSprite = (fileName: string, isShiny: boolean = false) => {
+    return !isShiny ? `/images/pokemon/${fileName}.png` : ``
+  }
 
   const getPokemon = (identifier: string | number) => {
     return pokemonData[
@@ -93,5 +153,5 @@ export const usePokemon = () => {
     ]
   }
 
-  return { pokemonData, getPokemon }
+  return { pokemonData, getPokemon, getPokemonSprite }
 }
