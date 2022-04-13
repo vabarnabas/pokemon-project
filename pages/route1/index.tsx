@@ -82,7 +82,7 @@ const RandomPokemon = () => {
                   onDoubleClick={() => {
                     removePokemon(pokemon.id)
                   }}
-                  className="relative border rounded-md w-min hover:border-blue-500 cursor-pointer overflow-hidden p-1"
+                  className="relative border rounded-md w-min aspect-square hover:border-blue-500 cursor-pointer overflow-hidden p-1"
                 >
                   <div className="relative w-16 h-16">
                     <Image
@@ -93,9 +93,9 @@ const RandomPokemon = () => {
                       layout="fill"
                     />
                   </div>
-                  <div className="absolute top-0 inset-x-0 text-xs px-1 pt-0.5">
+                  <div className="absolute top-0 inset-x-0 text-xs px-1 pt-0.5 flex space-x-0.5 bg-white bg-opacity-80">
                     {pokemon.ivs
-                      .filter((iv) => iv > 29)
+                      .filter((iv) => iv > 28)
                       .map((iv) => (
                         <div className="">{iv === 31 ? "🌟" : "⭐️"}</div>
                       ))}
