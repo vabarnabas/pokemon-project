@@ -23,7 +23,7 @@ const RandomPokemon = () => {
     "Galarian Zigzagoon",
     "Galarian Zigzagoon",
     "Galarian Zigzagoon",
-
+    "Axew",
     "Eevee",
   ]
   const levelRange: number[] = [5, 5, 5, 6, 6, 7]
@@ -37,12 +37,14 @@ const RandomPokemon = () => {
       <p className="absolute top-12 font-bold text-2xl text-blue-500">
         Route 1
       </p>
-      <p
-        onClick={() => router.push("/storage")}
-        className="absolute top-3 right-4 text-blue-500 hover:text-blue-600 underline cursor-pointer"
-      >
-        Storage
-      </p>
+      <div className="absolute inset-x-0 top-0 px-4 py-2 flex justify-end">
+        <p
+          onClick={() => router.push("/storage")}
+          className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
+        >
+          Storage
+        </p>
+      </div>
       {Object.keys(randomPokemon).length > 0 && (
         <div className="flex flex-col items-center justify-center">
           <p className="">{`${randomPokemon.baseData.name} (lvl. ${
