@@ -14,11 +14,13 @@ type Action =
   | { type: "remove_pokemon"; id: string }
   | { type: "get_storage" }
   | { type: "set_storage"; storage: Pokemon[] }
+  | { type: "clear_storage" }
 
 interface Context {
   pokemonStorage: Pokemon[]
   addPokemon: (pokemon: Pokemon) => void
   removePokemon: (id: string) => void
+  clearStorage: () => void
 }
 
 const reducer = (state: any, action: Action) => {
@@ -29,6 +31,8 @@ const reducer = (state: any, action: Action) => {
       return action.storage
     case "remove_pokemon":
       return state.filter((pokemon: Pokemon) => pokemon.id !== action.id)
+    case "clear_storage":
+      return []
     default:
       return state
   }
@@ -57,6 +61,9 @@ export const PokemonStorageProvider: React.FC<Props> = ({ children }) => {
       },
       removePokemon: (id: string) => {
         dispatch({ type: "remove_pokemon", id })
+      },
+      clearStorage: () => {
+        dispatch({ type: "clear_storage" })
       },
     }),
     []

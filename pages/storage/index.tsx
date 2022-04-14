@@ -9,7 +9,8 @@ const PokemonStorage = () => {
   const router = useRouter()
   const { getPokemonSprite } = useImporter()
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>({} as Pokemon)
-  const { pokemonStorage, addPokemon, removePokemon } = usePokemonStorage()
+  const { pokemonStorage, addPokemon, removePokemon, clearStorage } =
+    usePokemonStorage()
 
   useEffect(() => {
     pokemonStorage.length === 0 && router.push("/route1")
@@ -17,7 +18,13 @@ const PokemonStorage = () => {
 
   return (
     <div className="relative px-8 py-10 w-screen h-screen flex items-start justify-center overflow-x-hidden">
-      <div className="absolute inset-x-0 top-0 px-4 py-2 flex justify-end">
+      <div className="absolute inset-x-0 top-0 px-4 py-2 flex justify-end space-x-2">
+        <p
+          onDoubleClick={() => clearStorage()}
+          className="text-rose-500 hover:text-rose-600 underline cursor-pointer"
+        >
+          Clear
+        </p>
         <p
           onClick={() => router.back()}
           className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
@@ -27,7 +34,10 @@ const PokemonStorage = () => {
       </div>
       <div className="grid grid-cols-3 gap-2">
         {pokemonStorage.length > 0 && Object.keys(selectedPokemon).length > 0 && (
-          <div className="relative border rounded-md col-span-3 row-start-1 row-end-3 row-span-3 flex w-full aspect-square items-center justify-center overflow-hidden">
+          <div
+            id="pokemon-screen"
+            className="relative border rounded-md col-span-3 row-start-1 row-end-3 row-span-3 flex w-full aspect-square items-center justify-center overflow-hidden"
+          >
             <div className="relative w-64 h-64">
               <Image
                 src={getPokemonSprite(

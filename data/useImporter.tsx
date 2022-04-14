@@ -1,6 +1,8 @@
+import { useRouter } from "next/router"
 import { useItems } from "./useItems"
 import { useMoves } from "./useMoves"
 import { usePokemon } from "./usePokemon"
+import { useRoutes } from "./useRoutes"
 import { useTypes } from "./useTypes"
 
 export const useImporter = () => {
@@ -8,6 +10,7 @@ export const useImporter = () => {
   const { movesData, getMove } = useMoves()
   const { pokemonData, getPokemon, getPokemonSprite, generatePokemon } =
     usePokemon()
+  const { getRoute, routesData } = useRoutes()
   const { itemsData, getItem } = useItems()
 
   return {
@@ -22,5 +25,7 @@ export const useImporter = () => {
     generatePokemon,
     itemsData,
     getItem,
+    routesData,
+    getRoute,
   }
 }

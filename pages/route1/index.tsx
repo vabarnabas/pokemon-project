@@ -9,39 +9,31 @@ const RandomPokemon = () => {
   const router = useRouter()
   const [randomPokemon, setRandomPokemon] = useState<Pokemon>({} as Pokemon)
   const { pokemonStorage, addPokemon, removePokemon } = usePokemonStorage()
-  const { generatePokemon, getPokemonSprite } = useImporter()
-  const encounters: string[] = [
-    "Pidgey",
-    "Pidgey",
-    "Pidgey",
-    "Pidgey",
-    "Pidgey",
-    "Shinx",
-    "Shinx",
-    "Pidgeotto",
-    "Galarian Zigzagoon",
-    "Galarian Zigzagoon",
-    "Galarian Zigzagoon",
-    "Galarian Zigzagoon",
-    "Axew",
-    "Ralts",
-    "Eevee",
-    "Eevee",
-  ]
-  const levelRange: number[] = [5, 5, 5, 6, 6, 7]
+  const { generatePokemon, getPokemonSprite, getRoute } = useImporter()
+
+  const { r: route } = router.query
 
   useEffect(() => {
-    setRandomPokemon(generatePokemon(encounters, levelRange))
-  }, [])
+    if (router.isReady) {
+      setRandomPokemon(
+        generatePokemon(
+          getRoute((Array.isArray(route) ? route[0] : route) || "route1")
+            ?.encounters,
+          getRoute((Array.isArray(route) ? route[0] : route) || "route1")
+            ?.levelRange
+        )
+      )
+    }
+  }, [router.isReady])
 
   return (
     <div className="relative w-screen h-screen flex items-center justify-center select-none">
       <p className="absolute top-12 font-bold text-2xl text-blue-500">
-        Route 1
+        {getRoute((Array.isArray(route) ? route[0] : route) || "route1").name}
       </p>
       <div className="absolute inset-x-0 top-0 px-4 py-2 flex justify-end">
         <p
-          onClick={() => router.push("/storage")}
+          onClick={() => pokemonStorage.length > 0 && router.push("/storage")}
           className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
         >
           Storage
@@ -64,7 +56,16 @@ const RandomPokemon = () => {
           <button
             onClick={() => {
               addPokemon(randomPokemon)
-              setRandomPokemon(generatePokemon(encounters, levelRange))
+              setRandomPokemon(
+                generatePokemon(
+                  getRoute(
+                    (Array.isArray(route) ? route[0] : route) || "route1"
+                  )?.encounters,
+                  getRoute(
+                    (Array.isArray(route) ? route[0] : route) || "route1"
+                  )?.levelRange
+                )
+              )
             }}
             className="mt-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-1"
           >
@@ -72,9 +73,23 @@ const RandomPokemon = () => {
           </button>
           <button
             onClick={() => {
-              setRandomPokemon(generatePokemon(encounters, levelRange))
+              !randomPokemon.shiny &&
+                setRandomPokemon(
+                  generatePokemon(
+                    getRoute(
+                      (Array.isArray(route) ? route[0] : route) || "route1"
+                    )?.encounters,
+                    getRoute(
+                      (Array.isArray(route) ? route[0] : route) || "route1"
+                    )?.levelRange
+                  )
+                )
             }}
-            className="mt-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-1"
+            className={`mt-4 rounded-md text-white px-4 py-1 ${
+              !randomPokemon.shiny
+                ? "bg-blue-500 hover:bg-blue-600"
+                : "bg-slate-200"
+            }`}
           >
             Reroll
           </button>
