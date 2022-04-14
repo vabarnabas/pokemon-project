@@ -24,6 +24,8 @@ const RandomPokemon = () => {
     "Galarian Zigzagoon",
     "Galarian Zigzagoon",
     "Axew",
+    "Ralts",
+    "Eevee",
     "Eevee",
   ]
   const levelRange: number[] = [5, 5, 5, 6, 6, 7]
