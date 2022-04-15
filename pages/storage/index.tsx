@@ -9,15 +9,14 @@ const PokemonStorage = () => {
   const router = useRouter()
   const { getPokemonSprite } = useImporter()
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>({} as Pokemon)
-  const { pokemonStorage, addPokemon, removePokemon, clearStorage } =
-    usePokemonStorage()
+  const { pokemonStorage, removePokemon, clearStorage } = usePokemonStorage()
 
   useEffect(() => {
     pokemonStorage.length === 0 && router.push("/route1")
   }, [pokemonStorage])
 
   return (
-    <div className="relative px-8 py-10 w-screen h-screen flex items-start justify-center overflow-x-hidden">
+    <div className="relative px-8 py-10 w-screen h-screen flex items-start justify-center overflow-x-hidden select-none">
       <div className="absolute inset-x-0 top-0 px-4 py-2 flex justify-end space-x-2">
         <p
           onDoubleClick={() => clearStorage()}

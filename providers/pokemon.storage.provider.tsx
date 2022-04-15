@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  ReactNode,
   useContext,
   useEffect,
   useMemo,
@@ -12,7 +11,6 @@ import { Pokemon } from "../data/usePokemon"
 type Action =
   | { type: "add_pokemon"; pokemon: Pokemon }
   | { type: "remove_pokemon"; id: string }
-  | { type: "get_storage" }
   | { type: "set_storage"; storage: Pokemon[] }
   | { type: "clear_storage" }
 

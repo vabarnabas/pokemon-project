@@ -1,6 +1,8 @@
 import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
+import Navbar, { MenuItem } from "../../components/navbar/navbar"
+import RouteIndicator from "../../components/route-indicator/route-indicator"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
@@ -26,19 +28,19 @@ const RandomPokemon = () => {
     }
   }, [router.isReady])
 
+  const menuItems: MenuItem[] = [
+    {
+      name: "Pokemon Storage",
+      action: () => router.push("/storage"),
+    },
+  ]
+
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center select-none">
-      <p className="absolute top-12 font-bold text-2xl text-blue-500">
-        {getRoute((Array.isArray(route) ? route[0] : route) || "route1").name}
-      </p>
-      <div className="absolute inset-x-0 top-0 px-4 py-2 flex justify-end">
-        <p
-          onClick={() => pokemonStorage.length > 0 && router.push("/storage")}
-          className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
-        >
-          Storage
-        </p>
-      </div>
+    <div className="relative w-screen h-screen flex items-center justify-center select-none text-slate-500">
+      <Navbar menuItems={menuItems} />
+      <RouteIndicator
+        route={getRoute((Array.isArray(route) ? route[0] : route) || "route1")}
+      />
       {Object.keys(randomPokemon).length > 0 && (
         <div className="flex flex-col items-center justify-center">
           <p className="">{`${randomPokemon.baseData.name} (lvl. ${

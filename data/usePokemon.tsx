@@ -272,13 +272,11 @@ export const usePokemon = () => {
       baseData: pokemon,
       level: levelRange[Math.floor(Math.random() * levelRange.length)],
       shiny: isShiny ?? 1 === Math.floor(Math.random() * 500),
-      ivs: ivs
-        ? ivs
-        : [
-            Math.floor(Math.random() * 31),
-            Math.floor(Math.random() * 31),
-            Math.floor(Math.random() * 31),
-          ],
+      ivs: ivs ?? [
+        Math.floor(Math.random() * 31),
+        Math.floor(Math.random() * 31),
+        Math.floor(Math.random() * 31),
+      ],
       move1: pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
       move2: pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
     }
