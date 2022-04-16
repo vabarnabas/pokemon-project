@@ -4,10 +4,19 @@ import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 
 const Dev = () => {
   const router = useRouter()
-  const { clearStorage } = usePokemonStorage()
+  const { clearStorage, pokemonStorage, modifyPokemon } = usePokemonStorage()
+
+  const updatePokemon = () => {
+    pokemonStorage.forEach((pokemon) => {
+      if (pokemon?.createdAt === undefined) {
+        pokemon.createdAt = Date.now()
+      }
+      modifyPokemon(pokemon)
+    })
+  }
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center flex-col gap-y-4">
       <button
         onClick={() => {
           clearStorage()
@@ -16,6 +25,15 @@ const Dev = () => {
         className="bg-rose-500 hover:bg-rose-600 px-4 py-1 rounded-md text-white text-sm"
       >
         Clear Storage
+      </button>
+      <button
+        onClick={() => {
+          updatePokemon()
+          router.push("/encounter")
+        }}
+        className="bg-blue-500 hover:bg-blue-600 px-4 py-1 rounded-md text-white text-sm"
+      >
+        Update Pokemon
       </button>
     </div>
   )
