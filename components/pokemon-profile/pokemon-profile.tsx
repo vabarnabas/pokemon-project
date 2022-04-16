@@ -30,7 +30,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
         <p className="text-sm -mt-1">{`lv. ${pokemon.level}`}</p>
         <div className="relative h-32 w-32">
           <Image
-            src={getPokemonSprite(pokemon.baseData.sprite)}
+            src={getPokemonSprite(pokemon.baseData.sprite, pokemon.shiny)}
             layout="fill"
           />
         </div>
