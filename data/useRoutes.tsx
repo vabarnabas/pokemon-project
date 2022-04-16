@@ -39,12 +39,8 @@ export const useRoutes = () => {
           weight: 2,
         },
         {
-          value: "Pidgeot",
-          weight: 2,
-        },
-        {
           value: "Ralts",
-          weight: 4,
+          weight: 6,
         },
       ],
       levelRange: [

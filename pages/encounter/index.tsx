@@ -47,7 +47,7 @@ const RandomPokemon = () => {
   ]
 
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center select-none text-slate-500">
+    <div className="relative w-screen h-screen flex items-center justify-center select-none text-slate-600">
       <Navbar menuItems={menuItems} />
       <RouteIndicator
         route={getRoute((Array.isArray(route) ? route[0] : route) || "route1")}

@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    router.push("/route1")
+    router.push("/encounter")
   }, [])
 
   const [battleArray, setBattleArray] = useState<string[]>([])
