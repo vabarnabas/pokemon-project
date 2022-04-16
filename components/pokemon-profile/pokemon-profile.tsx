@@ -3,6 +3,7 @@ import React from "react"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon } from "../../data/usePokemon"
 import { HiX } from "react-icons/hi"
+import { CgPokemon } from "react-icons/cg"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 
 interface Props {
@@ -12,11 +13,15 @@ interface Props {
 
 const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
   const { getPokemonSprite } = useImporter()
-  const { removePokemon } = usePokemonStorage()
+  const { removePokemon, modifyPokemon } = usePokemonStorage()
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center text-slate-600">
-      <div className="relative bg-white rounded-md px-16 py-6 flex flex-col items-center justify-center">
+      <div className="relative bg-white rounded-md px-8 pt-6 pb-4 flex flex-col items-center justify-center">
+        <p className="absolute left-0 px-2 py-0.5 rounded-r-md text-white top-12 text-xs bg-amber-500 flex items-center justify-center">
+          {new Date(pokemon.createdAt).toLocaleDateString("en-US")}
+          <CgPokemon className="text-sm ml-1" />
+        </p>
         <div className="absolute inset-x-3 top-3 flex items-center justify-between">
           {pokemon.shiny && <p className="ml-1">✨</p>}
           <HiX
@@ -41,10 +46,10 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
               <div className="">{iv === 31 ? "🌟" : "⭐️"}</div>
             ))}
         </div>
-        <div className="grid grid-rows-2 gap-y-4">
+        <div className="grid grid-cols-2 gap-x-4">
           <div className="flex flex-col items-center justify-center">
-            <p className="font-bold text-blue-500">Base Stats</p>
-            <div className="text-xs grid grid-cols-3 gap-x-2">
+            <p className="font-bold text-blue-500">Stats</p>
+            <div className="text-xs grid grid-cols-3 gap-x-1">
               <div className="flex flex-col items-center justify-center">
                 <p className="">HP</p>
                 <p className="">{pokemon.baseData.hp}</p>
@@ -61,7 +66,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
           </div>
           <div className="flex flex-col items-center justify-center">
             <p className="font-bold text-blue-500">IVs</p>
-            <div className="text-xs grid grid-cols-3 gap-x-2">
+            <div className="text-xs grid grid-cols-3 gap-x-1">
               <div className="flex flex-col items-center justify-center">
                 <p className="">HP</p>
                 <p
@@ -107,15 +112,33 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             </div>
           </div>
         </div>
-        <button
-          onClick={() => {
-            removePokemon(pokemon.id)
-            setSelectedPokemon({} as Pokemon)
-          }}
-          className="mt-5 bg-rose-500 hover:bg-rose-600 px-4 py-1 rounded-md text-white text-sm"
-        >
-          Release
-        </button>
+        <div className="grid grid-cols-2 gap-x-2">
+          <button
+            onClick={() => {
+              if (pokemon.level < 100) {
+                pokemon.level++
+                modifyPokemon(pokemon)
+                setSelectedPokemon(pokemon)
+              }
+            }}
+            className={`mt-5 px-4 py-1 rounded-md text-white text-sm ${
+              pokemon.level < 100
+                ? "bg-blue-500 hover:bg-blue-600"
+                : "bg-slate-400"
+            }`}
+          >
+            Level Up
+          </button>
+          <button
+            onClick={() => {
+              removePokemon(pokemon.id)
+              setSelectedPokemon({} as Pokemon)
+            }}
+            className="mt-5 bg-rose-500 hover:bg-rose-600 px-4 py-1 rounded-md text-white text-sm"
+          >
+            Release
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@ export interface PokemonItem {
   id: number
   name: string
   description: string
+  usableInBattle: boolean
   sprite: string
 }
 

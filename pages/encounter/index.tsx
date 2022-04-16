@@ -2,6 +2,7 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import Navbar, { MenuItem } from "../../components/navbar/navbar"
+import PokemonTile from "../../components/pokemon-tile/pokemon-tile"
 import RouteIndicator from "../../components/route-indicator/route-indicator"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon, usePokemon } from "../../data/usePokemon"
@@ -45,7 +46,7 @@ const RandomPokemon = () => {
   const menuItems: MenuItem[] = [
     {
       name: "Pokemon Storage",
-      action: () => router.push("/storage"),
+      action: () => pokemonStorage.length > 0 && router.push("/storage"),
     },
   ]
 
@@ -93,34 +94,7 @@ const RandomPokemon = () => {
           <div className="absolute bottom-0 inset-x-0 flex items-center justify-center py-2">
             <div className="grid grid-cols-3 grid-rows-2 gap-2">
               {pokemonStorage.slice(0, 6).map((pokemon) => (
-                <div
-                  key={pokemon.id}
-                  onDoubleClick={() => {
-                    removePokemon(pokemon.id)
-                  }}
-                  className="relative border rounded-md w-min aspect-square hover:border-blue-500 cursor-pointer overflow-hidden p-1"
-                >
-                  <div className="relative w-16 h-16">
-                    <Image
-                      src={getPokemonSprite(
-                        pokemon.baseData.sprite,
-                        pokemon.shiny
-                      )}
-                      layout="fill"
-                    />
-                  </div>
-                  <div className="absolute top-0 inset-x-0 text-xs px-1 pt-0.5 flex space-x-0.5 bg-white bg-opacity-80">
-                    {pokemon.ivs
-                      .filter((iv) => iv > 28)
-                      .map((iv) => (
-                        <div className="">{iv === 31 ? "🌟" : "⭐️"}</div>
-                      ))}
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 text-xs flex items-center justify-between px-1 pb-0.5 bg-opacity-80 bg-white">
-                    <p className="">{`lv. ${pokemon.level}`}</p>
-                    {pokemon.shiny && <p className="">✨</p>}
-                  </div>
-                </div>
+                <PokemonTile pokemon={pokemon} onClick={() => {}} />
               ))}
             </div>
           </div>

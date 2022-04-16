@@ -16,6 +16,7 @@ export interface BasePokemon {
 
 export interface Pokemon {
   id: string
+  createdAt: number
   baseData: BasePokemon
   level: number
   ivs: [hp: number, attack: number, defense: number]
@@ -270,6 +271,7 @@ export const usePokemon = () => {
     )
     return {
       id: uuidv4(),
+      createdAt: Date.now(),
       baseData: pokemon,
       level: levelRange[Math.floor(Math.random() * levelRange.length)],
       shiny: isShiny ?? 1 === Math.floor(Math.random() * (shinyChance ?? 500)),

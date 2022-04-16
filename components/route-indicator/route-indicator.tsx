@@ -4,6 +4,7 @@ import { Route } from "../../data/useRoutes"
 import { HiOutlineInformationCircle } from "react-icons/hi"
 import ScrollContainer from "react-indiana-drag-scroll"
 import { route } from "next/dist/server/router"
+import { useRouter } from "next/router"
 
 interface Props {
   route: Route
@@ -11,12 +12,22 @@ interface Props {
 
 const RouteIndicator: React.FC<Props> = ({ route: currentRoute }) => {
   const { routesData } = useImporter()
+  const router = useRouter()
 
   return (
     <div className="fixed top-12 w-full h-12 flex items-center justify-start border-b space-x-4 border-slate-200 select-none px-6 text-slate-600">
       <ScrollContainer className="w-full grid grid-flow-col gap-x-2">
         {routesData.map((route) => (
-          <div key={route.slug} className="">
+          <div
+            onClick={() =>
+              router.push({
+                pathname: router.pathname,
+                query: { r: route.slug },
+              })
+            }
+            key={route.slug}
+            className=""
+          >
             <p
               className={`px-3 py-0.5 text-sm font-semibold text-center rounded-full text-white ${
                 route.slug === currentRoute.slug
