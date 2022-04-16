@@ -29,9 +29,8 @@ const PokemonStorage = () => {
   ]
 
   return (
-    <div className="relative px-8 py-14 w-screen h-screen flex items-start justify-center overflow-x-hidden select-none text-slate-600">
-      <Navbar menuItems={menuItems} />
-      <div className="grid grid-cols-3 gap-2">
+    <div className="relative px-8 w-screen h-screen flex items-start justify-center overflow-x-hidden select-none text-slate-600">
+      <div className="grid grid-cols-3 gap-2 pt-14 pb-4">
         {pokemonStorage.map((pokemon) => (
           <div
             key={pokemon.id}
@@ -61,6 +60,8 @@ const PokemonStorage = () => {
           </div>
         ))}
       </div>
+      <Navbar menuItems={menuItems} />
+
       {Object.keys(selectedPokemon).length > 0 && (
         <PokemonProfile
           setSelectedPokemon={(pokemon) => setSelectedPokemon(pokemon)}
