@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
+import Navbar, { MenuItem } from "../../components/navbar/navbar"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
@@ -12,25 +13,23 @@ const PokemonStorage = () => {
   const { pokemonStorage, removePokemon, clearStorage } = usePokemonStorage()
 
   useEffect(() => {
-    pokemonStorage.length === 0 && router.push("/route1")
+    pokemonStorage.length === 0 && router.back()
   }, [pokemonStorage])
 
+  const menuItems: MenuItem[] = [
+    {
+      name: "Clear",
+      action: () => clearStorage(),
+    },
+    {
+      name: "Back",
+      action: () => router.back(),
+    },
+  ]
+
   return (
-    <div className="relative px-8 py-10 w-screen h-screen flex items-start justify-center overflow-x-hidden select-none">
-      <div className="absolute inset-x-0 top-0 px-4 py-2 flex justify-end space-x-2">
-        <p
-          onDoubleClick={() => clearStorage()}
-          className="text-rose-500 hover:text-rose-600 underline cursor-pointer"
-        >
-          Clear
-        </p>
-        <p
-          onClick={() => router.back()}
-          className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
-        >
-          Back
-        </p>
-      </div>
+    <div className="relative px-8 py-14 w-screen h-screen flex items-start justify-center overflow-x-hidden select-none text-slate-500">
+      <Navbar menuItems={menuItems} />
       <div className="grid grid-cols-3 gap-2">
         {pokemonStorage.length > 0 && Object.keys(selectedPokemon).length > 0 && (
           <div
@@ -71,7 +70,7 @@ const PokemonStorage = () => {
               </div>
             </div>
             <div className="absolute inset-x-0 bottom-0 text-base flex items-center justify-between px-3 pb-2 bg-opacity-80 bg-white">
-              <p className="">{`lvl. ${selectedPokemon.level}`}</p>
+              <p className="">{`lv. ${selectedPokemon.level}`}</p>
               {selectedPokemon.shiny && <p className="">✨</p>}
             </div>
           </div>
@@ -99,7 +98,7 @@ const PokemonStorage = () => {
                 ))}
             </div>
             <div className="absolute inset-x-0 bottom-0 text-xs flex items-center justify-between px-1 pb-0.5 bg-opacity-80 bg-white">
-              <p className="">{`lvl. ${pokemon.level}`}</p>
+              <p className="">{`lv. ${pokemon.level}`}</p>
               {pokemon.shiny && <p className="">✨</p>}
             </div>
           </div>

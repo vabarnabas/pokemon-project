@@ -1,8 +1,10 @@
+import { WeightedString } from "../services/helper"
+
 export interface Route {
   name: string
   slug: string
-  encounters: string[]
-  levelRange: number[]
+  encounters: WeightedString[]
+  levelRange: WeightedString[]
   shinyChange?: number
 }
 
@@ -12,30 +14,121 @@ export const useRoutes = () => {
       name: "Route 1",
       slug: "route1",
       encounters: [
-        "Pidgey",
-        "Pidgey",
-        "Pidgey",
-        "Pidgey",
-        "Pidgey",
-        "Shinx",
-        "Shinx",
-        "Pidgeotto",
-        "Galarian Zigzagoon",
-        "Galarian Zigzagoon",
-        "Galarian Zigzagoon",
-        "Galarian Zigzagoon",
-        "Axew",
-        "Ralts",
-        "Eevee",
-        "Eevee",
+        {
+          value: "Pidgey",
+          weight: 30,
+        },
+        {
+          value: "Galarian Zigzagoon",
+          weight: 25,
+        },
+        {
+          value: "Eevee",
+          weight: 18,
+        },
+        {
+          value: "Axew",
+          weight: 1,
+        },
+        {
+          value: "Shinx",
+          weight: 18,
+        },
+        {
+          value: "Pidgeotto",
+          weight: 2,
+        },
+        {
+          value: "Pidgeot",
+          weight: 2,
+        },
+        {
+          value: "Ralts",
+          weight: 4,
+        },
       ],
-      levelRange: [5, 5, 5, 6, 6, 7],
+      levelRange: [
+        {
+          value: "5",
+          weight: 30,
+        },
+        {
+          value: "6",
+          weight: 30,
+        },
+        {
+          value: "7",
+          weight: 25,
+        },
+        {
+          value: "8",
+          weight: 10,
+        },
+        {
+          value: "9",
+          weight: 5,
+        },
+      ],
     },
     {
       name: "Route 2",
       slug: "route2",
-      encounters: ["Magnemite"],
-      levelRange: [5, 5, 5, 6, 6, 7],
+      encounters: [
+        {
+          value: "Pidgey",
+          weight: 30,
+        },
+        {
+          value: "Galarian Zigzagoon",
+          weight: 25,
+        },
+        {
+          value: "Eevee",
+          weight: 18,
+        },
+        {
+          value: "Axew",
+          weight: 1,
+        },
+        {
+          value: "Shinx",
+          weight: 18,
+        },
+        {
+          value: "Pidgeotto",
+          weight: 2,
+        },
+        {
+          value: "Pidgeot",
+          weight: 2,
+        },
+        {
+          value: "Ralts",
+          weight: 4,
+        },
+      ],
+      levelRange: [
+        {
+          value: "5",
+          weight: 30,
+        },
+        {
+          value: "6",
+          weight: 30,
+        },
+        {
+          value: "7",
+          weight: 25,
+        },
+        {
+          value: "8",
+          weight: 10,
+        },
+        {
+          value: "9",
+          weight: 5,
+        },
+      ],
     },
   ]
 

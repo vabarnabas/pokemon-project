@@ -15,7 +15,7 @@ const Navbar: React.FC<Props> = ({ menuItems }) => {
       <p className="mr-auto font-bold cursor-pointer select-none">
         <span className="text-blue-500">Pokemon</span> Project
       </p>
-      <div className="ml-auto flex items-center justify-center space-x-6">
+      <div className="ml-auto flex items-center justify-center space-x-4">
         {menuItems.map((item) => (
           <p
             key={item.name}

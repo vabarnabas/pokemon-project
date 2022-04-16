@@ -282,5 +282,10 @@ export const usePokemon = () => {
     }
   }
 
-  return { pokemonData, getPokemon, getPokemonSprite, generatePokemon }
+  return {
+    pokemonData,
+    getPokemon,
+    getPokemonSprite,
+    generatePokemon,
+  }
 }

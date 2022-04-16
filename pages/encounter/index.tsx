@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react"
 import Navbar, { MenuItem } from "../../components/navbar/navbar"
 import RouteIndicator from "../../components/route-indicator/route-indicator"
 import { useImporter } from "../../data/useImporter"
-import { Pokemon } from "../../data/usePokemon"
+import { Pokemon, usePokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
+import { getWeightedArray } from "../../services/helper"
 
 const RandomPokemon = () => {
   const router = useRouter()
@@ -15,16 +16,26 @@ const RandomPokemon = () => {
 
   const { r: route } = router.query
 
-  useEffect(() => {
-    if (router.isReady) {
-      setRandomPokemon(
-        generatePokemon(
+  const generateRandomPokemon = () => {
+    setRandomPokemon(
+      generatePokemon(
+        getWeightedArray(
           getRoute((Array.isArray(route) ? route[0] : route) || "route1")
-            ?.encounters,
+            ?.encounters
+        ),
+        getWeightedArray(
           getRoute((Array.isArray(route) ? route[0] : route) || "route1")
             ?.levelRange
-        )
+        ).map((level) => {
+          return parseInt(level)
+        })
       )
+    )
+  }
+
+  useEffect(() => {
+    if (router.isReady) {
+      generateRandomPokemon()
     }
   }, [router.isReady])
 
@@ -43,7 +54,7 @@ const RandomPokemon = () => {
       />
       {Object.keys(randomPokemon).length > 0 && (
         <div className="flex flex-col items-center justify-center">
-          <p className="">{`${randomPokemon.baseData.name} (lvl. ${
+          <p className="">{`${randomPokemon.baseData.name} (lv. ${
             randomPokemon.level
           }) ${randomPokemon.shiny ? "✨" : ""}`}</p>
           <div className="relative h-32 w-32">
@@ -58,16 +69,7 @@ const RandomPokemon = () => {
           <button
             onClick={() => {
               addPokemon(randomPokemon)
-              setRandomPokemon(
-                generatePokemon(
-                  getRoute(
-                    (Array.isArray(route) ? route[0] : route) || "route1"
-                  )?.encounters,
-                  getRoute(
-                    (Array.isArray(route) ? route[0] : route) || "route1"
-                  )?.levelRange
-                )
-              )
+              generateRandomPokemon()
             }}
             className="mt-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-1"
           >
@@ -75,17 +77,7 @@ const RandomPokemon = () => {
           </button>
           <button
             onClick={() => {
-              !randomPokemon.shiny &&
-                setRandomPokemon(
-                  generatePokemon(
-                    getRoute(
-                      (Array.isArray(route) ? route[0] : route) || "route1"
-                    )?.encounters,
-                    getRoute(
-                      (Array.isArray(route) ? route[0] : route) || "route1"
-                    )?.levelRange
-                  )
-                )
+              !randomPokemon.shiny && generateRandomPokemon()
             }}
             className={`mt-4 rounded-md text-white px-4 py-1 ${
               !randomPokemon.shiny
@@ -122,7 +114,7 @@ const RandomPokemon = () => {
                       ))}
                   </div>
                   <div className="absolute inset-x-0 bottom-0 text-xs flex items-center justify-between px-1 pb-0.5 bg-opacity-80 bg-white">
-                    <p className="">{`lvl. ${pokemon.level}`}</p>
+                    <p className="">{`lv. ${pokemon.level}`}</p>
                     {pokemon.shiny && <p className="">✨</p>}
                   </div>
                 </div>
