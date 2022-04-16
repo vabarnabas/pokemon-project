@@ -262,6 +262,7 @@ export const usePokemon = () => {
     pokemonPool: string[],
     levelRange: number[],
     isShiny?: boolean,
+    shinyChance?: number,
     ivs?: [hp: number, attack: number, defense: number]
   ): Pokemon => {
     const pokemon = getPokemon(
@@ -271,7 +272,7 @@ export const usePokemon = () => {
       id: uuidv4(),
       baseData: pokemon,
       level: levelRange[Math.floor(Math.random() * levelRange.length)],
-      shiny: isShiny ?? 1 === Math.floor(Math.random() * 500),
+      shiny: isShiny ?? 1 === Math.floor(Math.random() * (shinyChance ?? 500)),
       ivs: ivs ?? [
         Math.floor(Math.random() * 31),
         Math.floor(Math.random() * 31),

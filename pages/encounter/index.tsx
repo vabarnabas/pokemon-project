@@ -28,7 +28,10 @@ const RandomPokemon = () => {
             ?.levelRange
         ).map((level) => {
           return parseInt(level)
-        })
+        }),
+        undefined,
+        getRoute((Array.isArray(route) ? route[0] : route) || "route1")
+          ?.shinyChange ?? undefined
       )
     )
   }

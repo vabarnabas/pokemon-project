@@ -34,7 +34,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             layout="fill"
           />
         </div>
-        <div className="text-xs px-1 mb-1 flex space-x-0.5 bg-white bg-opacity-80">
+        <div className="text-xs px-2 py-0.5 flex space-x-1 bg-opacity-80">
           {pokemon.ivs
             .filter((iv) => iv > 28)
             .map((iv) => (
