@@ -1,10 +1,11 @@
 import Image from "next/image"
-import React from "react"
+import React, { useState } from "react"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon } from "../../data/usePokemon"
 import { HiX } from "react-icons/hi"
 import { CgPokemon } from "react-icons/cg"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
+import { Dialog } from "@headlessui/react"
 
 interface Props {
   pokemon: Pokemon
@@ -16,7 +17,11 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
   const { removePokemon, modifyPokemon } = usePokemonStorage()
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center text-slate-600">
+    <Dialog
+      open={true}
+      onClose={() => setSelectedPokemon({} as Pokemon)}
+      className="fixed inset-0 bg-black/60 flex items-center justify-center text-slate-600"
+    >
       <div className="relative bg-white rounded-md px-8 pt-6 pb-4 flex flex-col items-center justify-center">
         <p className="absolute left-0 px-2 py-0.5 rounded-r-md text-white top-12 text-xs bg-amber-500 flex items-center justify-center">
           {new Date(pokemon.createdAt).toLocaleDateString("en-US")}
@@ -26,7 +31,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
           {pokemon.shiny && <p className="ml-1">✨</p>}
           <HiX
             onClick={() => setSelectedPokemon({} as Pokemon)}
-            className="ml-auto cursor-pointer"
+            className="ml-auto cursor-pointer text-lg hover:text-blue-500"
           />
         </div>
         <div className="flex">
@@ -140,7 +145,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
           </button>
         </div>
       </div>
-    </div>
+    </Dialog>
   )
 }
 

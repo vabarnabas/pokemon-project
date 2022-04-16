@@ -15,8 +15,8 @@ const RouteIndicator: React.FC<Props> = ({ route: currentRoute }) => {
   const router = useRouter()
 
   return (
-    <div className="fixed top-12 w-full h-12 flex items-center justify-start border-b space-x-4 border-slate-200 select-none px-6 text-slate-600">
-      <ScrollContainer className="w-full grid grid-flow-col gap-x-2">
+    <div className="fixed top-12 w-full h-12 flex items-center justify-between border-b space-x-4 border-slate-200 select-none px-6 text-slate-600">
+      <ScrollContainer className="w-min grid grid-flow-col gap-x-2">
         {routesData.map((route) => (
           <div
             onClick={() =>
@@ -29,7 +29,7 @@ const RouteIndicator: React.FC<Props> = ({ route: currentRoute }) => {
             className=""
           >
             <p
-              className={`px-3 py-0.5 text-sm font-semibold text-center rounded-full text-white ${
+              className={`cursor-pointer px-3 py-0.5 text-sm font-semibold text-center rounded-full text-white w-max ${
                 route.slug === currentRoute.slug
                   ? "bg-blue-500"
                   : "bg-slate-400 "

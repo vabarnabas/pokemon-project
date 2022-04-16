@@ -41,7 +41,7 @@ const RandomPokemon = () => {
     if (router.isReady) {
       generateRandomPokemon()
     }
-  }, [router.isReady])
+  }, [router.isReady, route])
 
   const menuItems: MenuItem[] = [
     {
@@ -94,7 +94,11 @@ const RandomPokemon = () => {
           <div className="absolute bottom-0 inset-x-0 flex items-center justify-center py-2">
             <div className="grid grid-cols-3 grid-rows-2 gap-2">
               {pokemonStorage.slice(0, 6).map((pokemon) => (
-                <PokemonTile pokemon={pokemon} onClick={() => {}} />
+                <PokemonTile
+                  key={pokemon.id}
+                  pokemon={pokemon}
+                  onClick={() => {}}
+                />
               ))}
             </div>
           </div>
