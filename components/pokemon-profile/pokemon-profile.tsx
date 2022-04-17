@@ -6,6 +6,10 @@ import { HiX } from "react-icons/hi"
 import { CgPokemon } from "react-icons/cg"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 import { Dialog } from "@headlessui/react"
+import { useUserStorage } from "../../providers/user.provider"
+import { useMutation } from "urql"
+import { mutationCreateGift } from "../../graphql/mutations"
+import { v4 as uuidv4 } from "uuid"
 
 interface Props {
   pokemon: Pokemon
@@ -14,7 +18,20 @@ interface Props {
 
 const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
   const { getPokemonSprite } = useImporter()
+  const { userStorage } = useUserStorage()
   const { removePokemon, modifyPokemon } = usePokemonStorage()
+  const [{ data, fetching }, createGift] = useMutation(mutationCreateGift)
+
+  const onGiftCreation = async (pokemon: Pokemon) => {
+    removePokemon(pokemon.id)
+    const giftId = await createGift({
+      id: uuidv4,
+      message: `A gift from ${userStorage.username}, enjoy!`,
+      pokemon: JSON.stringify(pokemon),
+      trainer: userStorage.username,
+    })
+    console.log(giftId)
+  }
 
   return (
     <Dialog
@@ -22,13 +39,13 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
       onClose={() => setSelectedPokemon({} as Pokemon)}
       className="fixed inset-0 bg-black/60 flex items-center justify-center text-slate-600 select-none"
     >
-      <div className="relative bg-white rounded-md px-8 pt-6 pb-4 flex flex-col items-center justify-center">
-        <p className="absolute left-0 px-2 py-0.5 rounded-r-md text-white top-12 text-xs bg-amber-500 flex items-center justify-center">
+      <div className="relative bg-white rounded-md px-8 pt-4 pb-4 flex flex-col items-center justify-center">
+        <p className="absolute left-0 px-2 py-0.5 rounded-r-md text-white top-10 text-xs bg-amber-500 flex items-center justify-center">
           {new Date(pokemon.createdAt).toLocaleDateString("en-US")}
           <CgPokemon className="text-sm ml-1" />
         </p>
         <div className="absolute inset-x-3 top-3 flex items-center justify-between">
-          {pokemon.shiny && <p className="ml-1">✨</p>}
+          {pokemon.shiny && <p className="ml-1 text-sm">✨</p>}
           <HiX
             onClick={() => setSelectedPokemon({} as Pokemon)}
             className="ml-auto cursor-pointer text-lg hover:text-blue-500"
@@ -117,7 +134,13 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-x-4">
+        <p className="text-xs my-3">
+          OT:{" "}
+          <span className="font-semibold text-blue-500">
+            {pokemon.ot.username}
+          </span>
+        </p>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
           <button
             onClick={() => {
               if (pokemon.level < 100) {
@@ -126,7 +149,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
                 setSelectedPokemon(pokemon)
               }
             }}
-            className={`mt-5 px-4 py-1 rounded-md text-white text-sm ${
+            className={`px-4 py-1 rounded-md text-white text-sm ${
               pokemon.level < 100
                 ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-slate-400"
@@ -139,9 +162,17 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
               removePokemon(pokemon.id)
               setSelectedPokemon({} as Pokemon)
             }}
-            className="mt-5 bg-rose-500 hover:bg-rose-600 px-4 py-1 rounded-md text-white text-sm"
+            className="bg-rose-500 hover:bg-rose-600 px-4 py-1 rounded-md text-white text-sm"
           >
             Release
+          </button>
+          <button
+            onClick={() => {
+              onGiftCreation(pokemon)
+            }}
+            className="bg-rose-500 hover:bg-rose-600 px-4 py-1 rounded-md text-white text-sm"
+          >
+            Gift
           </button>
         </div>
       </div>

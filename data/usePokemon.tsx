@@ -1,6 +1,7 @@
 import { PokemonMove, useMoves } from "./useMoves"
 import { PokemonType, useTypes } from "./useTypes"
 import { v4 as uuidv4 } from "uuid"
+import { useUserStorage } from "../providers/user.provider"
 
 export interface BasePokemon {
   dexId: number
@@ -23,11 +24,16 @@ export interface Pokemon {
   move1: PokemonMove
   move2: PokemonMove
   shiny: boolean
+  ot: {
+    id: string
+    username: string
+  }
 }
 
 export const usePokemon = () => {
   const { getType } = useTypes()
   const { getMove } = useMoves()
+  const { userStorage } = useUserStorage()
 
   const pokemonData: BasePokemon[] = [
     {
@@ -282,6 +288,10 @@ export const usePokemon = () => {
       ],
       move1: pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
       move2: pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
+      ot: {
+        id: userStorage.id,
+        username: userStorage.username,
+      },
     }
   }
 

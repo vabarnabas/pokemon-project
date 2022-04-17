@@ -7,10 +7,12 @@ import RouteIndicator from "../../components/route-indicator/route-indicator"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon, usePokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
+import { useUserStorage } from "../../providers/user.provider"
 import { getWeightedArray } from "../../services/helper"
 
 const RandomPokemon = () => {
   const router = useRouter()
+  const { userStorage } = useUserStorage()
   const [randomPokemon, setRandomPokemon] = useState<Pokemon>({} as Pokemon)
   const { pokemonStorage, addPokemon, removePokemon } = usePokemonStorage()
   const { generatePokemon, getPokemonSprite, getRoute } = useImporter()
@@ -72,7 +74,12 @@ const RandomPokemon = () => {
           </div>
           <button
             onClick={() => {
-              addPokemon(randomPokemon)
+              const caughtPokemon = randomPokemon
+              caughtPokemon.ot = {
+                id: userStorage.id,
+                username: userStorage.username,
+              }
+              addPokemon(caughtPokemon)
               generateRandomPokemon()
             }}
             className="mt-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-1"

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import React, {
   createContext,
   useContext,
@@ -25,7 +26,9 @@ interface Context {
 const reducer = (state: any, action: Action) => {
   switch (action.type) {
     case "create_user":
-      return [...state, action.user]
+      return action.user
+    case "set_storage":
+      return action.storage
     default:
       return state
   }
@@ -38,19 +41,16 @@ interface Props {
 }
 
 export const UserStorageProvider: React.FC<Props> = ({ children }) => {
+  const router = useRouter()
   const [fetching, setFetching] = useState(true)
-  const [state, dispatch] = useReducer(reducer, [])
+  const [state, dispatch] = useReducer(reducer, {})
 
   const actions = useMemo(
     () => ({
-      createUser: () => {
+      createUser: (user: User) => {
         dispatch({
           type: "create_user",
-          user: {
-            username: "Barni",
-            id: "abc123",
-            level: 1,
-          },
+          user: user,
         })
       },
       setStorage: (storage: User) => {
@@ -64,7 +64,7 @@ export const UserStorageProvider: React.FC<Props> = ({ children }) => {
   )
 
   useEffect(() => {
-    actions.setStorage(JSON.parse(localStorage.getItem("userStorage") || "[]"))
+    actions.setStorage(JSON.parse(localStorage.getItem("userStorage") || "{}"))
     setFetching(false)
   }, [])
 
@@ -73,6 +73,16 @@ export const UserStorageProvider: React.FC<Props> = ({ children }) => {
       localStorage.setItem("userStorage", JSON.stringify(state))
     }
   }, [state])
+
+  useEffect(() => {
+    if (
+      !fetching &&
+      Object.keys(state).length === 0 &&
+      router.pathname !== "/login"
+    ) {
+      router.push("/login")
+    }
+  }, [router.pathname])
 
   return (
     <UserStorageContext.Provider value={{ userStorage: state, ...actions }}>
