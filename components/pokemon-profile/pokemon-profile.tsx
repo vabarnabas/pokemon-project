@@ -20,7 +20,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
     <Dialog
       open={true}
       onClose={() => setSelectedPokemon({} as Pokemon)}
-      className="fixed inset-0 bg-black/60 flex items-center justify-center text-slate-600"
+      className="fixed inset-0 bg-black/60 flex items-center justify-center text-slate-600 select-none"
     >
       <div className="relative bg-white rounded-md px-8 pt-6 pb-4 flex flex-col items-center justify-center">
         <p className="absolute left-0 px-2 py-0.5 rounded-r-md text-white top-12 text-xs bg-amber-500 flex items-center justify-center">
@@ -117,7 +117,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-x-2">
+        <div className="grid grid-cols-2 gap-x-4">
           <button
             onClick={() => {
               if (pokemon.level < 100) {
