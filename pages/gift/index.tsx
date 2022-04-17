@@ -51,7 +51,7 @@ const Gift = () => {
   }, [data])
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center">
+    <div className="h-screen w-screen flex items-center justify-center select-none">
       {data && Object.keys(pokemon).length > 0 && (
         <div className="flex items-center justify-center flex-col text-slate-600">
           <p className="mb-4 font-semibold">

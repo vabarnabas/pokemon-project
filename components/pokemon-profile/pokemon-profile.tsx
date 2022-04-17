@@ -77,7 +77,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
               <div className="">{iv === 31 ? "🌟" : "⭐️"}</div>
             ))}
         </div>
-        <div className="grid grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-2 gap-x-3">
           <div className="flex flex-col items-center justify-center">
             <p className="font-bold text-blue-500">Stats</p>
             <div className="text-xs grid grid-cols-3 gap-x-1">
@@ -149,7 +149,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             {pokemon.ot.username}
           </span>
         </p>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-3">
           <button
             onClick={() => {
               if (pokemon.level < 100) {
@@ -158,7 +158,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
                 setSelectedPokemon(pokemon)
               }
             }}
-            className={`px-4 py-1 rounded-md text-white text-sm ${
+            className={`px-4 py-1 rounded-md text-white text-sm col-span-2 ${
               pokemon.level < 100
                 ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-slate-400"
