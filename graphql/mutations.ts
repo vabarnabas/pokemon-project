@@ -19,3 +19,11 @@ export const mutationCreateGift = gql`
     }
   }
 `
+
+export const mutationDeleteGift = gql`
+  mutation mutationDeleteGift($id: uuid!) {
+    delete_gift_by_pk(id: $id) {
+      id
+    }
+  }
+`

@@ -10,6 +10,7 @@ import { useUserStorage } from "../../providers/user.provider"
 import { useMutation } from "urql"
 import { mutationCreateGift } from "../../graphql/mutations"
 import { v4 as uuidv4 } from "uuid"
+import { useRouter } from "next/router"
 
 interface Props {
   pokemon: Pokemon
@@ -17,20 +18,28 @@ interface Props {
 }
 
 const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
+  const router = useRouter()
   const { getPokemonSprite } = useImporter()
   const { userStorage } = useUserStorage()
   const { removePokemon, modifyPokemon } = usePokemonStorage()
-  const [{ data, fetching }, createGift] = useMutation(mutationCreateGift)
+  const [, createGift] = useMutation(mutationCreateGift)
 
   const onGiftCreation = async (pokemon: Pokemon) => {
-    removePokemon(pokemon.id)
     const giftId = await createGift({
-      id: uuidv4,
+      id: uuidv4(),
       message: `A gift from ${userStorage.username}, enjoy!`,
       pokemon: JSON.stringify(pokemon),
       trainer: userStorage.username,
     })
-    console.log(giftId)
+    if (giftId.data) {
+      removePokemon(pokemon.id)
+    }
+    router.push({
+      pathname: "/gift",
+      query: {
+        gid: giftId?.data?.insert_gift_one?.id,
+      },
+    })
   }
 
   return (

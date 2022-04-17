@@ -1,15 +1,23 @@
 import { useRouter } from "next/router"
 import React from "react"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
+import { useUserStorage } from "../../providers/user.provider"
 
 const Dev = () => {
   const router = useRouter()
   const { clearStorage, pokemonStorage, modifyPokemon } = usePokemonStorage()
+  const { userStorage } = useUserStorage()
 
   const updatePokemon = () => {
     pokemonStorage.forEach((pokemon) => {
       if (pokemon?.createdAt === undefined) {
         pokemon.createdAt = Date.now()
+      }
+      if (pokemon?.ot === undefined) {
+        pokemon.ot = {
+          id: userStorage.id,
+          username: userStorage.username,
+        }
       }
       modifyPokemon(pokemon)
     })
