@@ -71,7 +71,7 @@ const Home: NextPage = () => {
             <div className="mt-1 text-xs grid grid-cols-3 gap-1">
               <div className="text-center flex flex-col items-center justify-center">
                 <p className="">HP</p>
-                <p className="">{pokemon.hp}</p>
+                <p className="">{pokemon.stamina}</p>
               </div>
               <div className="text-center flex flex-col items-center justify-center">
                 <p className="">ATK</p>

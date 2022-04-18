@@ -7,7 +7,7 @@ export interface BasePokemon {
   dexId: number
   form?: number
   name: string
-  hp: number
+  stamina: number
   attack: number
   defense: number
   types: [type1: PokemonType, type2?: PokemonType]
@@ -20,7 +20,7 @@ export interface Pokemon {
   createdAt: number
   baseData: BasePokemon
   level: number
-  ivs: [hp: number, attack: number, defense: number]
+  ivs: [stamina: number, attack: number, defense: number]
   move1: PokemonMove
   move2: PokemonMove
   shiny: boolean
@@ -39,7 +39,7 @@ export const usePokemon = () => {
     {
       dexId: 133,
       name: "Eevee",
-      hp: 55,
+      stamina: 55,
       attack: 50,
       defense: 60,
       types: [getType("Normal")],
@@ -49,7 +49,7 @@ export const usePokemon = () => {
     {
       dexId: 136,
       name: "Flareon",
-      hp: 65,
+      stamina: 65,
       attack: 110,
       defense: 85,
       types: [getType("Fire")],
@@ -59,7 +59,7 @@ export const usePokemon = () => {
     {
       dexId: 134,
       name: "Vaporeon",
-      hp: 130,
+      stamina: 100,
       attack: 80,
       defense: 80,
       types: [getType("Water")],
@@ -69,7 +69,7 @@ export const usePokemon = () => {
     {
       dexId: 470,
       name: "Leafeon",
-      hp: 65,
+      stamina: 65,
       attack: 85,
       defense: 100,
       types: [getType("Grass")],
@@ -79,7 +79,7 @@ export const usePokemon = () => {
     {
       dexId: 135,
       name: "Jolteon",
-      hp: 65,
+      stamina: 80,
       attack: 90,
       defense: 95,
       types: [getType("Electric")],
@@ -89,7 +89,7 @@ export const usePokemon = () => {
     {
       dexId: 361,
       name: "Snorunt",
-      hp: 50,
+      stamina: 50,
       attack: 50,
       defense: 50,
       types: [getType("Ice")],
@@ -99,7 +99,7 @@ export const usePokemon = () => {
     {
       dexId: 296,
       name: "Makuhita",
-      hp: 70,
+      stamina: 50,
       attack: 40,
       defense: 30,
       types: [getType("Fighting")],
@@ -109,7 +109,7 @@ export const usePokemon = () => {
     {
       dexId: 23,
       name: "Ekans",
-      hp: 35,
+      stamina: 45,
       attack: 50,
       defense: 50,
       types: [getType("Poison")],
@@ -119,7 +119,7 @@ export const usePokemon = () => {
     {
       dexId: 328,
       name: "Trapinch",
-      hp: 45,
+      stamina: 30,
       attack: 75,
       defense: 45,
       types: [getType("Ground")],
@@ -129,7 +129,7 @@ export const usePokemon = () => {
     {
       dexId: 63,
       name: "Abra",
-      hp: 25,
+      stamina: 60,
       attack: 65,
       defense: 35,
       types: [getType("Psychic")],
@@ -139,7 +139,7 @@ export const usePokemon = () => {
     {
       dexId: 167,
       name: "Spinarak",
-      hp: 45,
+      stamina: 35,
       attack: 50,
       defense: 40,
       types: [getType("Bug"), getType("Poison")],
@@ -149,7 +149,7 @@ export const usePokemon = () => {
     {
       dexId: 246,
       name: "Larvitar",
-      hp: 50,
+      stamina: 45,
       attack: 55,
       defense: 50,
       types: [getType("Rock"), getType("Ground")],
@@ -159,7 +159,7 @@ export const usePokemon = () => {
     {
       dexId: 355,
       name: "Duskull",
-      hp: 20,
+      stamina: 25,
       attack: 35,
       defense: 90,
       types: [getType("Ghost")],
@@ -169,7 +169,7 @@ export const usePokemon = () => {
     {
       dexId: 610,
       name: "Axew",
-      hp: 45,
+      stamina: 50,
       attack: 60,
       defense: 50,
       types: [getType("Dragon")],
@@ -179,7 +179,7 @@ export const usePokemon = () => {
     {
       dexId: 81,
       name: "Magnemite",
-      hp: 25,
+      stamina: 35,
       attack: 65,
       defense: 65,
       types: [getType("Electric"), getType("Steel")],
@@ -189,7 +189,7 @@ export const usePokemon = () => {
     {
       dexId: 280,
       name: "Ralts",
-      hp: 30,
+      stamina: 35,
       attack: 35,
       defense: 30,
       types: [getType("Psychic"), getType("Fairy")],
@@ -199,7 +199,7 @@ export const usePokemon = () => {
     {
       dexId: 16,
       name: "Pidgey",
-      hp: 40,
+      stamina: 50,
       attack: 40,
       defense: 35,
       types: [getType("Normal"), getType("Flying")],
@@ -209,7 +209,7 @@ export const usePokemon = () => {
     {
       dexId: 17,
       name: "Pidgeotto",
-      hp: 60,
+      stamina: 65,
       attack: 55,
       defense: 50,
       types: [getType("Normal"), getType("Flying")],
@@ -219,7 +219,7 @@ export const usePokemon = () => {
     {
       dexId: 18,
       name: "Pidgeot",
-      hp: 85,
+      stamina: 90,
       attack: 75,
       defense: 70,
       types: [getType("Normal"), getType("Flying")],
@@ -230,7 +230,7 @@ export const usePokemon = () => {
       dexId: 263,
       form: 1,
       name: "Galarian Zigzagoon",
-      hp: 40,
+      stamina: 50,
       attack: 30,
       defense: 40,
       types: [getType("Dark"), getType("Normal")],
@@ -240,7 +240,7 @@ export const usePokemon = () => {
     {
       dexId: 263,
       name: "Shinx",
-      hp: 45,
+      stamina: 45,
       attack: 55,
       defense: 35,
       types: [getType("Electric")],

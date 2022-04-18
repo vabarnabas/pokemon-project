@@ -82,8 +82,8 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             <p className="font-bold text-blue-500">Stats</p>
             <div className="text-xs grid grid-cols-3 gap-x-1">
               <div className="flex flex-col items-center justify-center">
-                <p className="">HP</p>
-                <p className="">{pokemon.baseData.hp}</p>
+                <p className="">STA</p>
+                <p className="">{pokemon.baseData.stamina}</p>
               </div>
               <div className="flex flex-col items-center justify-center">
                 <p className="">ATK</p>
@@ -99,7 +99,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             <p className="font-bold text-blue-500">IVs</p>
             <div className="text-xs grid grid-cols-3 gap-x-1">
               <div className="flex flex-col items-center justify-center">
-                <p className="">HP</p>
+                <p className="">STA</p>
                 <p
                   className={`${
                     pokemon.ivs[0] === 31
