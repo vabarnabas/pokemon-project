@@ -1,14 +1,16 @@
 import { Dialog } from "@headlessui/react"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { CgPokemon } from "react-icons/cg"
 import { HiPlus, HiPlusSm, HiX } from "react-icons/hi"
 import { MdOutlineFemale, MdOutlineMale } from "react-icons/md"
+import Navbar from "../../components/navbar/navbar"
 import PokemonProfile from "../../components/pokemon-profile/pokemon-profile"
 import PokemonTile from "../../components/pokemon-tile/pokemon-tile"
 import StorageGrid from "../../components/storage-grid/storage-grid"
 import { useImporter } from "../../data/useImporter"
-import { Pokemon } from "../../data/usePokemon"
+import { EggGroup, Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 
 interface BreedingPair {
@@ -17,8 +19,9 @@ interface BreedingPair {
 }
 
 const Daycare = () => {
-  const { getPokemonSprite } = useImporter()
-  const { pokemonStorage } = usePokemonStorage()
+  const router = useRouter()
+  const { getPokemonSprite, getPokemon, generatePokemon } = useImporter()
+  const { pokemonStorage, removePokemon, addPokemon } = usePokemonStorage()
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>({} as Pokemon)
   const [breedingPair, setBreedingPair] = useState<BreedingPair>(
     {} as BreedingPair
@@ -27,20 +30,18 @@ const Daycare = () => {
 
   return (
     <div className="relative flex h-screen w-screen select-none items-center justify-center text-slate-600">
-      <div className="grid grid-flow-col gap-x-12">
-        {Object.keys(breedingPair?.pokemon1 || {}).length > 0 ? (
-          <PokemonTile pokemon={breedingPair.pokemon1} onClick={() => {}} />
-        ) : (
-          <div
-            onClick={() => setShowStorage(true)}
-            className="group relative flex aspect-square h-20 w-20 cursor-pointer items-center justify-center overflow-hidden rounded-md border p-2 hover:border-blue-500"
-          >
-            <HiPlus className="text-2xl text-slate-400 group-hover:text-blue-500" />
-          </div>
-        )}
-        {Object.keys(breedingPair?.pokemon1 || {}).length > 0 &&
-          (Object.keys(breedingPair.pokemon2 || {}).length > 0 ? (
-            <PokemonTile pokemon={breedingPair.pokemon2} onClick={() => {}} />
+      <Navbar
+        menuItems={[
+          {
+            name: "Back",
+            action: () => router.back(),
+          },
+        ]}
+      />
+      <div className="flex flex-col items-center justify-center space-y-6">
+        <div className="grid grid-flow-col gap-x-12">
+          {Object.keys(breedingPair?.pokemon1 || {}).length > 0 ? (
+            <PokemonTile pokemon={breedingPair.pokemon1} onClick={() => {}} />
           ) : (
             <div
               onClick={() => setShowStorage(true)}
@@ -48,24 +49,225 @@ const Daycare = () => {
             >
               <HiPlus className="text-2xl text-slate-400 group-hover:text-blue-500" />
             </div>
-          ))}
+          )}
+          {Object.keys(breedingPair?.pokemon1 || {}).length > 0 &&
+            (Object.keys(breedingPair.pokemon2 || {}).length > 0 ? (
+              <PokemonTile pokemon={breedingPair.pokemon2} onClick={() => {}} />
+            ) : (
+              <div
+                onClick={() => setShowStorage(true)}
+                className="group relative flex aspect-square h-20 w-20 cursor-pointer items-center justify-center overflow-hidden rounded-md border p-2 hover:border-blue-500"
+              >
+                <HiPlus className="text-2xl text-slate-400 group-hover:text-blue-500" />
+              </div>
+            ))}
+        </div>
+        {Object.keys(breedingPair?.pokemon1 || {}).length > 0 &&
+          Object.keys(breedingPair?.pokemon2 || {}).length > 0 && (
+            <div className="flex flex-col items-center justify-center">
+              <PokemonTile
+                pokemon={generatePokemon(
+                  [
+                    breedingPair.pokemon1.gender === "female"
+                      ? breedingPair.pokemon1.baseData.name
+                      : breedingPair.pokemon2.baseData.name,
+                  ],
+                  [1, 1],
+                  false,
+                  25,
+                  [0, 0, 0]
+                )}
+                onClick={() => {}}
+              />
+              <p className="mt-6 font-bold text-blue-500">IVs</p>
+              <div className="grid grid-cols-3 gap-x-2 text-xs">
+                <div className="flex flex-col items-center justify-center">
+                  <p className="">STA</p>
+                  <p
+                    className={`${
+                      Math.floor(
+                        (breedingPair.pokemon1.ivs[0] +
+                          breedingPair.pokemon2.ivs[0]) /
+                          2
+                      ) === 31
+                        ? "text-emerald-500"
+                        : Math.floor(
+                            (breedingPair.pokemon1.ivs[0] +
+                              breedingPair.pokemon2.ivs[0]) /
+                              2
+                          ) > 28
+                        ? "text-blue-500"
+                        : ""
+                    }`}
+                  >
+                    {[
+                      breedingPair.pokemon1.ivs[0],
+                      breedingPair.pokemon2.ivs[0],
+                    ]
+                      .sort((a, b) => {
+                        if (a > b) {
+                          return 1
+                        }
+                        return -1
+                      })
+                      .join(" - ")}
+                  </p>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <p className="">ATK</p>
+                  <p
+                    className={`${
+                      Math.floor(
+                        (breedingPair.pokemon1.ivs[1] +
+                          breedingPair.pokemon2.ivs[1]) /
+                          2
+                      ) === 31
+                        ? "text-emerald-500"
+                        : Math.floor(
+                            (breedingPair.pokemon1.ivs[1] +
+                              breedingPair.pokemon2.ivs[1]) /
+                              2
+                          ) > 28
+                        ? "text-blue-500"
+                        : ""
+                    }`}
+                  >
+                    {[
+                      breedingPair.pokemon1.ivs[1],
+                      breedingPair.pokemon2.ivs[1],
+                    ]
+                      .sort((a, b) => {
+                        if (a > b) {
+                          return 1
+                        }
+                        return -1
+                      })
+                      .join(" - ")}
+                  </p>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <p className="">DEF</p>
+                  <p
+                    className={`${
+                      Math.floor(
+                        (breedingPair.pokemon1.ivs[2] +
+                          breedingPair.pokemon2.ivs[2]) /
+                          2
+                      ) === 31
+                        ? "text-emerald-500"
+                        : Math.floor(
+                            (breedingPair.pokemon1.ivs[2] +
+                              breedingPair.pokemon2.ivs[2]) /
+                              2
+                          ) > 28
+                        ? "text-blue-500"
+                        : ""
+                    }`}
+                  >
+                    {[
+                      breedingPair.pokemon1.ivs[2],
+                      breedingPair.pokemon2.ivs[2],
+                    ]
+                      .sort((a, b) => {
+                        if (a > b) {
+                          return 1
+                        }
+                        return -1
+                      })
+                      .join(" - ")}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  addPokemon(
+                    generatePokemon(
+                      [
+                        breedingPair.pokemon1.gender === "female"
+                          ? breedingPair.pokemon1.baseData.name
+                          : breedingPair.pokemon2.baseData.name,
+                      ],
+                      [1, 1],
+                      undefined,
+                      50,
+                      [
+                        Math.floor(
+                          (breedingPair.pokemon1.ivs[0] +
+                            breedingPair.pokemon2.ivs[0]) /
+                            2
+                        ),
+                        Math.floor(
+                          (breedingPair.pokemon1.ivs[1] +
+                            breedingPair.pokemon2.ivs[1]) /
+                            2
+                        ),
+                        Math.floor(
+                          (breedingPair.pokemon1.ivs[2] +
+                            breedingPair.pokemon2.ivs[2]) /
+                            2
+                        ),
+                      ]
+                    )
+                  )
+                  removePokemon(breedingPair.pokemon1.id)
+                  removePokemon(breedingPair.pokemon2.id)
+                  setBreedingPair({} as BreedingPair)
+                }}
+                className="mt-6 w-full rounded-md bg-blue-500 px-4 py-1 text-sm text-white outline-none hover:bg-blue-600"
+              >
+                Breed
+              </button>
+              <button
+                onClick={() => setBreedingPair({} as BreedingPair)}
+                className="mt-3 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
+              >
+                Reset
+              </button>
+            </div>
+          )}
       </div>
       <Dialog
         open={showStorage}
         onClose={setShowStorage}
         className="fixed inset-0 flex select-none items-center justify-center bg-black/60 text-slate-600"
       >
-        <div className="px-6scrollbar-hide fixed bottom-0 flex h-[60vh] w-full flex-col items-center justify-start rounded-t-md bg-white px-6 pt-4 pb-2 md:w-auto">
-          <div className="relative h-full w-full overflow-y-auto scrollbar-hide">
+        <div className="fixed bottom-0 flex h-[60vh] w-full flex-col items-center justify-start rounded-t-md bg-white px-6 scrollbar-hide md:w-auto">
+          <div className="relative h-full w-full overflow-y-auto py-4 scrollbar-hide">
             <p className="text-xl font-bold">Pokemon Storage</p>
             <StorageGrid
-              storage={pokemonStorage}
+              storage={
+                Object.keys(breedingPair?.pokemon1 || {}).length === 0
+                  ? pokemonStorage
+                  : pokemonStorage.filter(
+                      (pokemon) =>
+                        pokemon.gender ===
+                          (breedingPair?.pokemon1?.gender === "male"
+                            ? "female"
+                            : "male") &&
+                        pokemon.baseData.eggGroup.some((element) =>
+                          breedingPair?.pokemon1?.baseData?.eggGroup.includes(
+                            element
+                          )
+                        )
+                    )
+              }
               onClick={(pokemon) => {
                 setShowStorage(false)
                 setSelectedPokemon(pokemon)
               }}
             />
+
+            <button
+              onClick={() => setBreedingPair({} as BreedingPair)}
+              className="mt-3 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
+            >
+              Reset
+            </button>
           </div>
+          <HiX
+            onClick={() => setShowStorage(false)}
+            className="absolute top-4 right-4 cursor-pointer hover:text-blue-500"
+          />
         </div>
       </Dialog>
       <Dialog

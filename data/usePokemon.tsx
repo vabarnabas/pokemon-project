@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid"
 import { useUserStorage } from "../providers/user.provider"
 import { getWeightedArray, WeightedString } from "../services/helper"
 
-type EggGroup =
+export type EggGroup =
   | "Monster"
   | "Human-Like"
   | "Water 1"

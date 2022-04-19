@@ -63,16 +63,17 @@ const PokemonStorage = () => {
 
   return (
     <div className="relative flex h-screen w-screen select-none items-start justify-center overflow-x-hidden px-8 text-slate-600">
-      <StorageGrid
-        storage={getFilterResults(pokemonStorage, filters)}
-        onClick={(selectedPokemon) => setSelectedPokemon(selectedPokemon)}
-      />
       <Navbar menuItems={menuItems} />
       <StorageFilter
         activators={activators}
         setActivators={(activators) => setActivators(activators)}
       />
-
+      <div className="pt-24">
+        <StorageGrid
+          storage={getFilterResults(pokemonStorage, filters)}
+          onClick={(selectedPokemon) => setSelectedPokemon(selectedPokemon)}
+        />
+      </div>
       <PokemonProfile
         open={Object.keys(selectedPokemon).length > 0}
         setSelectedPokemon={(pokemon) => setSelectedPokemon(pokemon)}

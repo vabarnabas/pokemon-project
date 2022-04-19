@@ -43,6 +43,10 @@ const RandomPokemon = () => {
 
   const menuItems: MenuItem[] = [
     {
+      name: "Daycare",
+      action: () => router.push("/daycare"),
+    },
+    {
       name: "Pokemon Storage",
       action: () => pokemonStorage.length > 0 && router.push("/storage"),
     },
