@@ -62,7 +62,7 @@ const PokemonStorage = () => {
   ]
 
   return (
-    <div className="relative px-8 w-screen h-screen flex items-start justify-center overflow-x-hidden select-none text-slate-600">
+    <div className="relative flex h-screen w-screen select-none items-start justify-center overflow-x-hidden px-8 text-slate-600">
       <StorageGrid
         storage={getFilterResults(pokemonStorage, filters)}
         onClick={(selectedPokemon) => setSelectedPokemon(selectedPokemon)}
@@ -73,12 +73,11 @@ const PokemonStorage = () => {
         setActivators={(activators) => setActivators(activators)}
       />
 
-      {Object.keys(selectedPokemon).length > 0 && (
-        <PokemonProfile
-          setSelectedPokemon={(pokemon) => setSelectedPokemon(pokemon)}
-          pokemon={selectedPokemon}
-        />
-      )}
+      <PokemonProfile
+        open={Object.keys(selectedPokemon).length > 0}
+        setSelectedPokemon={(pokemon) => setSelectedPokemon(pokemon)}
+        pokemon={selectedPokemon}
+      />
     </div>
   )
 }

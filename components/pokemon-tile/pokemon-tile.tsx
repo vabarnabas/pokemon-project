@@ -21,15 +21,15 @@ const PokemonTile: React.FC<Props> = ({ pokemon, onClick }) => {
       onDoubleClick={() => {
         removePokemon(pokemon.id)
       }}
-      className="relative border rounded-md w-min aspect-square p-2 hover:border-blue-500 cursor-pointer overflow-hidden"
+      className="relative aspect-square h-20 w-20 cursor-pointer overflow-hidden rounded-md border p-2 hover:border-blue-500"
     >
-      <div className="relative w-16 h-16">
+      <div className="relative h-full w-full">
         <Image
           src={getPokemonSprite(pokemon.baseData.sprite, pokemon.shiny)}
           layout="fill"
         />
       </div>
-      <div className="absolute top-0 inset-x-0 text-xs px-1 pt-0.5 flex space-x-0.5 bg-white bg-opacity-80">
+      <div className="absolute inset-x-0 top-0 flex space-x-0.5 bg-white bg-opacity-80 px-1 pt-0.5 text-xs">
         {pokemon.ivs
           .filter((iv) => iv > 28)
           .map((iv, index) => (
@@ -38,7 +38,7 @@ const PokemonTile: React.FC<Props> = ({ pokemon, onClick }) => {
             </div>
           ))}
       </div>
-      <div className="absolute inset-x-0 bottom-0 text-xs flex items-center justify-between px-1 pb-0.5 bg-opacity-80 bg-white">
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-white bg-opacity-80 px-1 pb-0.5 text-xs">
         <p className="">{`lv. ${pokemon.level}`}</p>
         {pokemon.shiny && <p className="">✨</p>}
       </div>

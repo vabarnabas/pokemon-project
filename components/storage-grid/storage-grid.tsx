@@ -9,7 +9,7 @@ interface Props {
 
 const StorageGrid: React.FC<Props> = ({ storage, onClick }) => {
   return (
-    <div className="grid grid-cols-3 gap-2 pt-28 pb-4">
+    <div className="grid grid-cols-3 gap-2 py-4">
       {storage
         .sort((a, b) => {
           if (a.createdAt > b.createdAt) {

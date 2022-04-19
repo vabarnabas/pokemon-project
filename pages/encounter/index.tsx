@@ -49,7 +49,7 @@ const RandomPokemon = () => {
   ]
 
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center select-none text-slate-600">
+    <div className="relative flex h-screen w-screen select-none items-center justify-center text-slate-600">
       <Navbar menuItems={menuItems} />
       <RouteIndicator
         route={getRoute((Array.isArray(route) ? route[0] : route) || "route1")}
@@ -78,7 +78,7 @@ const RandomPokemon = () => {
               addPokemon(caughtPokemon)
               generateRandomPokemon()
             }}
-            className="mt-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-1"
+            className="mt-4 rounded-md bg-blue-500 px-4 py-1 text-white hover:bg-blue-600"
           >
             Catch
           </button>
@@ -86,7 +86,7 @@ const RandomPokemon = () => {
             onClick={() => {
               !randomPokemon.shiny && generateRandomPokemon()
             }}
-            className={`mt-4 rounded-md text-white px-4 py-1 ${
+            className={`mt-4 rounded-md px-4 py-1 text-white ${
               !randomPokemon.shiny
                 ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-slate-200"
@@ -94,7 +94,7 @@ const RandomPokemon = () => {
           >
             Reroll
           </button>
-          <div className="absolute bottom-0 inset-x-0 flex items-center justify-center py-2">
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center py-2">
             <div className="grid grid-cols-3 grid-rows-2 gap-2">
               {pokemonStorage.slice(0, 6).map((pokemon) => (
                 <PokemonTile

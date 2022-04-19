@@ -19,8 +19,8 @@ const StorageFilter: React.FC<Props> = ({ activators, setActivators }) => {
   ]
 
   return (
-    <div className="fixed top-12 w-full h-12 flex items-center justify-between border-b space-x-4 bg-white border-slate-200 select-none px-6 text-slate-600">
-      <ScrollContainer className="w-min grid grid-flow-col gap-x-2">
+    <div className="fixed top-12 flex h-12 w-full select-none items-center justify-between space-x-4 border-b border-slate-200 bg-white px-6 text-slate-600">
+      <ScrollContainer className="grid w-min grid-flow-col gap-x-2">
         {filterList.map((filter) => (
           <p
             key={filter.name}
@@ -31,18 +31,16 @@ const StorageFilter: React.FC<Props> = ({ activators, setActivators }) => {
                   )
                 : setActivators([...activators, filter.value])
             }}
-            className={`cursor-pointer px-3 py-0.5 text-sm font-semibold text-center rounded-full text-white w-max ${
-              activators.includes(filter.value)
-                ? "bg-blue-500"
-                : "bg-slate-400 "
+            className={`w-max cursor-pointer rounded-full px-3 py-0.5 text-center text-sm font-semibold text-white ${
+              activators.includes(filter.value) ? "bg-blue-500" : "bg-slate-400"
             }`}
           >
             {filter.name}
           </p>
         ))}
       </ScrollContainer>
-      <div className="relative ml-auto group">
-        <HiOutlineInformationCircle className="hover:text-blue-500 cursor-pointer " />
+      <div className="group relative ml-auto">
+        <HiOutlineInformationCircle className="cursor-pointer hover:text-blue-500" />
       </div>
     </div>
   )
