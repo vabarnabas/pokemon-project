@@ -4,7 +4,7 @@ export interface Route {
   name: string
   slug: string
   encounters: WeightedString[]
-  levelRange: WeightedString[]
+  levelRange: [minLevel: number, maxLevel: number]
   shinyChange?: number
 }
 
@@ -43,28 +43,7 @@ export const useRoutes = () => {
           weight: 6,
         },
       ],
-      levelRange: [
-        {
-          value: "5",
-          weight: 30,
-        },
-        {
-          value: "6",
-          weight: 30,
-        },
-        {
-          value: "7",
-          weight: 25,
-        },
-        {
-          value: "8",
-          weight: 10,
-        },
-        {
-          value: "9",
-          weight: 5,
-        },
-      ],
+      levelRange: [4, 9],
     },
     {
       name: "Route 2",
@@ -103,28 +82,7 @@ export const useRoutes = () => {
           weight: 4,
         },
       ],
-      levelRange: [
-        {
-          value: "5",
-          weight: 30,
-        },
-        {
-          value: "6",
-          weight: 30,
-        },
-        {
-          value: "7",
-          weight: 25,
-        },
-        {
-          value: "8",
-          weight: 10,
-        },
-        {
-          value: "9",
-          weight: 5,
-        },
-      ],
+      levelRange: [6, 14],
     },
   ]
 

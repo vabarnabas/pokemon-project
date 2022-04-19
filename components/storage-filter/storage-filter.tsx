@@ -5,24 +5,34 @@ import { HiOutlineInformationCircle } from "react-icons/hi"
 import ScrollContainer from "react-indiana-drag-scroll"
 import { useRouter } from "next/router"
 
-const StorageFilter: React.FC = () => {
-  const { routesData } = useImporter()
-  const [filters, setFilters] = useState<string[]>([])
-  const router = useRouter()
+interface Props {
+  activators: string[]
+  setActivators(activators: string[]): void
+}
 
-  const filterList: string[] = ["Shiny", "0*,1*", "2*,3*"]
+const StorageFilter: React.FC<Props> = ({ activators, setActivators }) => {
+  const filterList = [{ name: "Shiny", value: "shiny" }]
 
   return (
     <div className="fixed top-12 w-full h-12 flex items-center justify-between border-b space-x-4 bg-white border-slate-200 select-none px-6 text-slate-600">
       <ScrollContainer className="w-min grid grid-flow-col gap-x-2">
         {filterList.map((filter) => (
           <p
-            key={filter}
+            key={filter.name}
+            onClick={() => {
+              activators.includes(filter.value)
+                ? setActivators(
+                    activators.filter((item) => item !== filter.value)
+                  )
+                : setActivators([...activators, filter.value])
+            }}
             className={`cursor-pointer px-3 py-0.5 text-sm font-semibold text-center rounded-full text-white w-max ${
-              filters.includes(filter) ? "bg-blue-500" : "bg-slate-400 "
+              activators.includes(filter.value)
+                ? "bg-blue-500"
+                : "bg-slate-400 "
             }`}
           >
-            {filter}
+            {filter.name}
           </p>
         ))}
       </ScrollContainer>

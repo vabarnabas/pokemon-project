@@ -8,12 +8,13 @@ import StorageFilter from "../../components/storage-filter/storage-filter"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
+import { Filter, getFilterResults } from "../../services/advanced_filter"
 
 const PokemonStorage = () => {
   const router = useRouter()
-  const { getPokemonSprite } = useImporter()
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>({} as Pokemon)
   const { pokemonStorage, removePokemon, clearStorage } = usePokemonStorage()
+  const [activators, setActivators] = useState<string[]>([])
 
   useEffect(() => {
     pokemonStorage.length === 0 && router.back()
@@ -30,10 +31,20 @@ const PokemonStorage = () => {
     },
   ]
 
+  const filters: Filter[] = [
+    {
+      id: "shiny",
+      type: "boolean",
+      key: "shiny",
+      value: true,
+      active: activators.includes("shiny"),
+    },
+  ]
+
   return (
     <div className="relative px-8 w-screen h-screen flex items-start justify-center overflow-x-hidden select-none text-slate-600">
       <div className="grid grid-cols-3 gap-2 pt-28 pb-4">
-        {pokemonStorage
+        {getFilterResults(pokemonStorage, filters)
           .sort((a, b) => {
             if (a.createdAt > b.createdAt) {
               return -1
@@ -49,7 +60,10 @@ const PokemonStorage = () => {
           ))}
       </div>
       <Navbar menuItems={menuItems} />
-      <StorageFilter />
+      <StorageFilter
+        activators={activators}
+        setActivators={(activators) => setActivators(activators)}
+      />
 
       {Object.keys(selectedPokemon).length > 0 && (
         <PokemonProfile

@@ -26,12 +26,8 @@ const RandomPokemon = () => {
           getRoute((Array.isArray(route) ? route[0] : route) || "route1")
             ?.encounters
         ),
-        getWeightedArray(
-          getRoute((Array.isArray(route) ? route[0] : route) || "route1")
-            ?.levelRange
-        ).map((level) => {
-          return parseInt(level)
-        }),
+        getRoute((Array.isArray(route) ? route[0] : route) || "route1")
+          ?.levelRange,
         undefined,
         getRoute((Array.isArray(route) ? route[0] : route) || "route1")
           ?.shinyChange ?? undefined
