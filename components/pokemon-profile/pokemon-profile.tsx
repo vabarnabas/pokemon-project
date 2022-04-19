@@ -11,6 +11,7 @@ import { useMutation } from "urql"
 import { mutationCreateGift } from "../../graphql/mutations"
 import { v4 as uuidv4 } from "uuid"
 import { useRouter } from "next/router"
+import { MdOutlineMale, MdOutlineFemale } from "react-icons/md"
 
 interface Props {
   pokemon: Pokemon
@@ -60,8 +61,14 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             className="ml-auto cursor-pointer text-lg hover:text-blue-500"
           />
         </div>
-        <div className="flex">
+        <div className="flex items-center">
           <p className="text-blue-500 font-bold">{pokemon.baseData.name}</p>
+          {pokemon.gender === "male" && (
+            <MdOutlineMale className="text-sm text-blue-500 ml-0.5" />
+          )}
+          {pokemon.gender === "female" && (
+            <MdOutlineFemale className="text-sm text-pink-500 ml-0.5" />
+          )}
         </div>
         <p className="text-sm -mt-1">{`lv. ${pokemon.level}`}</p>
         <div className="relative h-32 w-32">
@@ -73,8 +80,10 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
         <div className="text-xs px-2 py-0.5 flex space-x-1 bg-opacity-80">
           {pokemon.ivs
             .filter((iv) => iv > 28)
-            .map((iv) => (
-              <div className="">{iv === 31 ? "🌟" : "⭐️"}</div>
+            .map((iv, index) => (
+              <div key={iv + index} className="">
+                {iv === 31 ? "🌟" : "⭐️"}
+              </div>
             ))}
         </div>
         <div className="grid grid-cols-2 gap-x-3">
@@ -161,7 +170,7 @@ const PokemonProfile: React.FC<Props> = ({ pokemon, setSelectedPokemon }) => {
             className={`px-4 py-1 rounded-md text-white text-sm col-span-2 ${
               pokemon.level < 100
                 ? "bg-blue-500 hover:bg-blue-600"
-                : "bg-slate-400"
+                : "bg-slate-300"
             }`}
           >
             Level Up

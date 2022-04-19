@@ -11,7 +11,12 @@ interface Props {
 }
 
 const StorageFilter: React.FC<Props> = ({ activators, setActivators }) => {
-  const filterList = [{ name: "Shiny", value: "shiny" }]
+  const filterList = [
+    { name: "Shiny", value: "shiny" },
+    { name: "1*", value: "1*" },
+    { name: "2*", value: "2*" },
+    { name: "3*", value: "3*" },
+  ]
 
   return (
     <div className="fixed top-12 w-full h-12 flex items-center justify-between border-b space-x-4 bg-white border-slate-200 select-none px-6 text-slate-600">

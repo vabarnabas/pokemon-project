@@ -1,3 +1,5 @@
+import { getStars } from "./helper"
+
 interface FilterIntervalDate {
   id: string
   type: "date_interval"
@@ -23,7 +25,19 @@ interface FilterBoolean {
   active: boolean
 }
 
-export type Filter = FilterIntervalDate | FilterText | FilterBoolean
+interface FilterStars {
+  id: string
+  type: "stars"
+  key: string
+  value: number
+  active: boolean
+}
+
+export type Filter =
+  | FilterIntervalDate
+  | FilterText
+  | FilterBoolean
+  | FilterStars
 
 export const getFilterResults = (input: any[], filters: Filter[]) => {
   let filteredArray: any[] = input
@@ -44,6 +58,11 @@ export const getFilterResults = (input: any[], filters: Filter[]) => {
       if (filter.type === "boolean") {
         filteredArray = filteredArray.filter(
           (item) => item[filter.key] === filter.value
+        )
+      }
+      if (filter.type === "stars") {
+        filteredArray = filteredArray.filter(
+          (item) => getStars(item[filter.key]) === filter.value
         )
       }
     }

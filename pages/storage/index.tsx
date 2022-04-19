@@ -1,11 +1,10 @@
-import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import Navbar, { MenuItem } from "../../components/navbar/navbar"
 import PokemonProfile from "../../components/pokemon-profile/pokemon-profile"
 import PokemonTile from "../../components/pokemon-tile/pokemon-tile"
 import StorageFilter from "../../components/storage-filter/storage-filter"
-import { useImporter } from "../../data/useImporter"
+import StorageGrid from "../../components/storage-grid/storage-grid"
 import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 import { Filter, getFilterResults } from "../../services/advanced_filter"
@@ -39,26 +38,35 @@ const PokemonStorage = () => {
       value: true,
       active: activators.includes("shiny"),
     },
+    {
+      id: "1*",
+      type: "stars",
+      key: "ivs",
+      value: 1,
+      active: activators.includes("1*"),
+    },
+    {
+      id: "2*",
+      type: "stars",
+      key: "ivs",
+      value: 2,
+      active: activators.includes("2*"),
+    },
+    {
+      id: "3*",
+      type: "stars",
+      key: "ivs",
+      value: 3,
+      active: activators.includes("3*"),
+    },
   ]
 
   return (
     <div className="relative px-8 w-screen h-screen flex items-start justify-center overflow-x-hidden select-none text-slate-600">
-      <div className="grid grid-cols-3 gap-2 pt-28 pb-4">
-        {getFilterResults(pokemonStorage, filters)
-          .sort((a, b) => {
-            if (a.createdAt > b.createdAt) {
-              return -1
-            }
-            return 1
-          })
-          .map((pokemon) => (
-            <PokemonTile
-              key={pokemon.id}
-              pokemon={pokemon}
-              onClick={() => setSelectedPokemon(pokemon)}
-            />
-          ))}
-      </div>
+      <StorageGrid
+        storage={getFilterResults(pokemonStorage, filters)}
+        onClick={(selectedPokemon) => setSelectedPokemon(selectedPokemon)}
+      />
       <Navbar menuItems={menuItems} />
       <StorageFilter
         activators={activators}

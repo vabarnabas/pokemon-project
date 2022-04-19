@@ -3,6 +3,7 @@ import React from "react"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
+import { getStars } from "../../services/helper"
 
 interface Props {
   pokemon: Pokemon
@@ -31,8 +32,10 @@ const PokemonTile: React.FC<Props> = ({ pokemon, onClick }) => {
       <div className="absolute top-0 inset-x-0 text-xs px-1 pt-0.5 flex space-x-0.5 bg-white bg-opacity-80">
         {pokemon.ivs
           .filter((iv) => iv > 28)
-          .map((iv) => (
-            <div className="">{iv === 31 ? "🌟" : "⭐️"}</div>
+          .map((iv, index) => (
+            <div key={iv + index} className="">
+              {iv === 31 ? "🌟" : "⭐️"}
+            </div>
           ))}
       </div>
       <div className="absolute inset-x-0 bottom-0 text-xs flex items-center justify-between px-1 pb-0.5 bg-opacity-80 bg-white">

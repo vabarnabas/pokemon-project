@@ -2,11 +2,29 @@ import { PokemonMove, useMoves } from "./useMoves"
 import { PokemonType, useTypes } from "./useTypes"
 import { v4 as uuidv4 } from "uuid"
 import { useUserStorage } from "../providers/user.provider"
+import { getWeightedArray, WeightedString } from "../services/helper"
 
+type EggGroup =
+  | "Monster"
+  | "Human-Like"
+  | "Water 1"
+  | "Water 2"
+  | "Water 3"
+  | "Bug"
+  | "Mineral"
+  | "Flying"
+  | "Amorphous"
+  | "Field"
+  | "Fairy"
+  | "Ditto"
+  | "Grass"
+  | "Dragon"
 export interface BasePokemon {
   dexId: number
   form?: number
   name: string
+  gender: WeightedString[]
+  eggGroup: EggGroup[]
   stamina: number
   attack: number
   defense: number
@@ -19,6 +37,7 @@ export interface Pokemon {
   id: string
   createdAt: number
   baseData: BasePokemon
+  gender: string
   level: number
   ivs: [stamina: number, attack: number, defense: number]
   move1: PokemonMove
@@ -39,6 +58,11 @@ export const usePokemon = () => {
     {
       dexId: 133,
       name: "Eevee",
+      gender: [
+        { weight: 88, value: "male" },
+        { weight: 12, value: "female" },
+      ],
+      eggGroup: ["Field"],
       stamina: 55,
       attack: 50,
       defense: 60,
@@ -49,6 +73,11 @@ export const usePokemon = () => {
     {
       dexId: 136,
       name: "Flareon",
+      gender: [
+        { weight: 88, value: "male" },
+        { weight: 12, value: "female" },
+      ],
+      eggGroup: ["Field"],
       stamina: 65,
       attack: 110,
       defense: 85,
@@ -59,6 +88,11 @@ export const usePokemon = () => {
     {
       dexId: 134,
       name: "Vaporeon",
+      gender: [
+        { weight: 88, value: "male" },
+        { weight: 12, value: "female" },
+      ],
+      eggGroup: ["Field"],
       stamina: 100,
       attack: 80,
       defense: 80,
@@ -69,6 +103,11 @@ export const usePokemon = () => {
     {
       dexId: 470,
       name: "Leafeon",
+      gender: [
+        { weight: 88, value: "male" },
+        { weight: 12, value: "female" },
+      ],
+      eggGroup: ["Field"],
       stamina: 65,
       attack: 85,
       defense: 100,
@@ -79,6 +118,11 @@ export const usePokemon = () => {
     {
       dexId: 135,
       name: "Jolteon",
+      gender: [
+        { weight: 88, value: "male" },
+        { weight: 12, value: "female" },
+      ],
+      eggGroup: ["Field"],
       stamina: 80,
       attack: 90,
       defense: 95,
@@ -89,6 +133,11 @@ export const usePokemon = () => {
     {
       dexId: 361,
       name: "Snorunt",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Fairy", "Mineral"],
       stamina: 50,
       attack: 50,
       defense: 50,
@@ -99,6 +148,11 @@ export const usePokemon = () => {
     {
       dexId: 296,
       name: "Makuhita",
+      gender: [
+        { weight: 75, value: "male" },
+        { weight: 25, value: "female" },
+      ],
+      eggGroup: ["Human-Like"],
       stamina: 50,
       attack: 40,
       defense: 30,
@@ -109,6 +163,11 @@ export const usePokemon = () => {
     {
       dexId: 23,
       name: "Ekans",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Dragon", "Field"],
       stamina: 45,
       attack: 50,
       defense: 50,
@@ -119,6 +178,11 @@ export const usePokemon = () => {
     {
       dexId: 328,
       name: "Trapinch",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Bug", "Dragon"],
       stamina: 30,
       attack: 75,
       defense: 45,
@@ -129,6 +193,11 @@ export const usePokemon = () => {
     {
       dexId: 63,
       name: "Abra",
+      gender: [
+        { weight: 75, value: "male" },
+        { weight: 25, value: "female" },
+      ],
+      eggGroup: ["Human-Like"],
       stamina: 60,
       attack: 65,
       defense: 35,
@@ -139,6 +208,11 @@ export const usePokemon = () => {
     {
       dexId: 167,
       name: "Spinarak",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Bug"],
       stamina: 35,
       attack: 50,
       defense: 40,
@@ -149,6 +223,11 @@ export const usePokemon = () => {
     {
       dexId: 246,
       name: "Larvitar",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Monster"],
       stamina: 45,
       attack: 55,
       defense: 50,
@@ -159,6 +238,11 @@ export const usePokemon = () => {
     {
       dexId: 355,
       name: "Duskull",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Amorphous"],
       stamina: 25,
       attack: 35,
       defense: 90,
@@ -169,6 +253,11 @@ export const usePokemon = () => {
     {
       dexId: 610,
       name: "Axew",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Dragon", "Monster"],
       stamina: 50,
       attack: 60,
       defense: 50,
@@ -179,6 +268,8 @@ export const usePokemon = () => {
     {
       dexId: 81,
       name: "Magnemite",
+      gender: [{ weight: 100, value: "genderless" }],
+      eggGroup: ["Mineral"],
       stamina: 35,
       attack: 65,
       defense: 65,
@@ -189,6 +280,11 @@ export const usePokemon = () => {
     {
       dexId: 280,
       name: "Ralts",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Amorphous", "Human-Like"],
       stamina: 35,
       attack: 35,
       defense: 30,
@@ -199,6 +295,11 @@ export const usePokemon = () => {
     {
       dexId: 16,
       name: "Pidgey",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Flying"],
       stamina: 50,
       attack: 40,
       defense: 35,
@@ -209,6 +310,11 @@ export const usePokemon = () => {
     {
       dexId: 17,
       name: "Pidgeotto",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Flying"],
       stamina: 65,
       attack: 55,
       defense: 50,
@@ -219,6 +325,11 @@ export const usePokemon = () => {
     {
       dexId: 18,
       name: "Pidgeot",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Flying"],
       stamina: 90,
       attack: 75,
       defense: 70,
@@ -230,6 +341,11 @@ export const usePokemon = () => {
       dexId: 263,
       form: 1,
       name: "Galarian Zigzagoon",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Field"],
       stamina: 50,
       attack: 30,
       defense: 40,
@@ -240,6 +356,11 @@ export const usePokemon = () => {
     {
       dexId: 263,
       name: "Shinx",
+      gender: [
+        { weight: 50, value: "male" },
+        { weight: 50, value: "female" },
+      ],
+      eggGroup: ["Field"],
       stamina: 45,
       attack: 55,
       defense: 35,
@@ -275,10 +396,12 @@ export const usePokemon = () => {
     const pokemon = getPokemon(
       pokemonPool[Math.floor(Math.random() * pokemonPool.length)]
     )
+    const genderArray = getWeightedArray(pokemon.gender)
     return {
       id: uuidv4(),
       createdAt: Date.now(),
       baseData: pokemon,
+      gender: genderArray[Math.floor(Math.random() * genderArray.length)],
       level: Math.floor(
         Math.random() * (levelRange[1] - levelRange[0]) + levelRange[0]
       ),

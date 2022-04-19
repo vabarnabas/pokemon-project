@@ -3,6 +3,7 @@ import React from "react"
 import { useImporter } from "../../data/useImporter"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 import { useUserStorage } from "../../providers/user.provider"
+import { getWeightedArray } from "../../services/helper"
 
 const Dev = () => {
   const router = useRouter()
@@ -12,6 +13,7 @@ const Dev = () => {
 
   const updatePokemon = () => {
     pokemonStorage.forEach((pokemon) => {
+      pokemon.baseData = getPokemon(pokemon.baseData.name)
       if (pokemon?.createdAt === undefined) {
         pokemon.createdAt = Date.now()
       }
@@ -21,8 +23,10 @@ const Dev = () => {
           username: userStorage.username,
         }
       }
-      if (pokemon.baseData?.stamina === undefined) {
-        pokemon.baseData = getPokemon(pokemon.baseData.name)
+      if (pokemon?.gender === undefined) {
+        const genderArray = getWeightedArray(pokemon.baseData.gender)
+        pokemon.gender =
+          genderArray[Math.floor(Math.random() * genderArray.length)]
       }
       modifyPokemon(pokemon)
     })
