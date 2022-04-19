@@ -1,10 +1,12 @@
 import { useRouter } from "next/router"
 import React from "react"
+import { useImporter } from "../../data/useImporter"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 import { useUserStorage } from "../../providers/user.provider"
 
 const Dev = () => {
   const router = useRouter()
+  const { getPokemon } = useImporter()
   const { clearStorage, pokemonStorage, modifyPokemon } = usePokemonStorage()
   const { userStorage } = useUserStorage()
 
@@ -18,6 +20,9 @@ const Dev = () => {
           id: userStorage.id,
           username: userStorage.username,
         }
+      }
+      if (pokemon.baseData?.stamina === undefined) {
+        pokemon.baseData = getPokemon(pokemon.baseData.name)
       }
       modifyPokemon(pokemon)
     })
