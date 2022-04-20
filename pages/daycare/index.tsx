@@ -3,15 +3,16 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { CgPokemon } from "react-icons/cg"
-import { HiPlus, HiPlusSm, HiX } from "react-icons/hi"
+import { HiOutlineInformationCircle, HiPlus, HiX } from "react-icons/hi"
 import { MdOutlineFemale, MdOutlineMale } from "react-icons/md"
+import ScrollContainer from "react-indiana-drag-scroll"
 import Navbar from "../../components/navbar/navbar"
-import PokemonProfile from "../../components/pokemon-profile/pokemon-profile"
 import PokemonTile from "../../components/pokemon-tile/pokemon-tile"
 import StorageGrid from "../../components/storage-grid/storage-grid"
 import { useImporter } from "../../data/useImporter"
-import { EggGroup, Pokemon } from "../../data/usePokemon"
+import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
+import { Filter, getFilterResults } from "../../services/advanced_filter"
 
 interface BreedingPair {
   pokemon1: Pokemon
@@ -22,6 +23,7 @@ type BreedingPair2 = [pokemon1: Pokemon, pokemon2: Pokemon]
 
 const Daycare = () => {
   const router = useRouter()
+  const [activators, setActivators] = useState<string[]>([])
   const { getPokemonSprite, getPokemon, generatePokemon } = useImporter()
   const { pokemonStorage, removePokemon, addPokemon } = usePokemonStorage()
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>({} as Pokemon)
@@ -33,6 +35,44 @@ const Daycare = () => {
     {} as Pokemon,
   ])
   const [showStorage, setShowStorage] = useState(false)
+
+  const filterList = [
+    { name: "Shiny", value: "shiny" },
+    { name: "1*", value: "1*" },
+    { name: "2*", value: "2*" },
+    { name: "3*", value: "3*" },
+  ]
+
+  const filters: Filter[] = [
+    {
+      id: "shiny",
+      type: "boolean",
+      key: "shiny",
+      value: true,
+      active: activators.includes("shiny"),
+    },
+    {
+      id: "1*",
+      type: "stars",
+      key: "ivs",
+      value: 1,
+      active: activators.includes("1*"),
+    },
+    {
+      id: "2*",
+      type: "stars",
+      key: "ivs",
+      value: 2,
+      active: activators.includes("2*"),
+    },
+    {
+      id: "3*",
+      type: "stars",
+      key: "ivs",
+      value: 3,
+      active: activators.includes("3*"),
+    },
+  ]
 
   return (
     <div className="relative flex h-screen w-screen select-none items-center justify-center text-slate-600">
@@ -237,8 +277,8 @@ const Daycare = () => {
         onClose={setShowStorage}
         className="fixed inset-0 flex select-none items-center justify-center bg-black/60 text-slate-600"
       >
-        <div className="fixed bottom-0 flex h-[60vh] w-full flex-col items-center justify-start rounded-t-md bg-white px-6 scrollbar-hide md:w-auto">
-          <div className="relative h-full w-full overflow-y-auto pt-4 scrollbar-hide">
+        <div className="fixed bottom-0 flex h-[60vh] w-full min-w-[304px] flex-col items-center justify-start overflow-hidden rounded-t-md bg-white px-6 scrollbar-hide md:w-auto">
+          <div className="absolute z-10 w-full bg-white px-6 pt-4">
             <div className="flex items-center justify-between">
               <p className="text-xl font-bold">Pokemon Storage</p>
               <HiX
@@ -246,9 +286,37 @@ const Daycare = () => {
                 className="cursor-pointer hover:text-blue-500"
               />
             </div>
-            <div className="flex justify-center">
+            <div className="flex h-min w-full select-none items-center justify-between space-x-4 border-b border-slate-200 bg-white py-2 text-slate-600">
+              <ScrollContainer className="grid w-min grid-flow-col gap-x-2">
+                {filterList.map((filter) => (
+                  <p
+                    key={filter.name}
+                    onClick={() => {
+                      activators.includes(filter.value)
+                        ? setActivators(
+                            activators.filter((item) => item !== filter.value)
+                          )
+                        : setActivators([...activators, filter.value])
+                    }}
+                    className={`w-max cursor-pointer rounded-full px-3 py-0.5 text-center text-xs font-semibold text-white ${
+                      activators.includes(filter.value)
+                        ? "bg-blue-500"
+                        : "bg-slate-400"
+                    }`}
+                  >
+                    {filter.name}
+                  </p>
+                ))}
+              </ScrollContainer>
+              <div className="group relative ml-auto">
+                <HiOutlineInformationCircle className="cursor-pointer hover:text-blue-500" />
+              </div>
+            </div>
+          </div>
+          <div className="relative h-full w-full overflow-y-auto pt-4 scrollbar-hide">
+            <div className="mt-16 flex justify-center">
               <StorageGrid
-                storage={
+                storage={getFilterResults(
                   Object.keys(breedingPair?.pokemon1 || {}).length === 0
                     ? pokemonStorage
                     : pokemonStorage.filter(
@@ -262,8 +330,9 @@ const Daycare = () => {
                               element
                             )
                           )
-                      )
-                }
+                      ),
+                  filters
+                )}
                 onClick={(pokemon) => {
                   setShowStorage(false)
                   setSelectedPokemon(pokemon)
@@ -273,7 +342,7 @@ const Daycare = () => {
           </div>
           <button
             onClick={() => setBreedingPair({} as BreedingPair)}
-            className="mb-4 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
+            className="mb-4 mt-2 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
           >
             Reset
           </button>
