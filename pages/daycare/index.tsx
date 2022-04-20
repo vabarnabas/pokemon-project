@@ -18,6 +18,8 @@ interface BreedingPair {
   pokemon2: Pokemon
 }
 
+type BreedingPair2 = [pokemon1: Pokemon, pokemon2: Pokemon]
+
 const Daycare = () => {
   const router = useRouter()
   const { getPokemonSprite, getPokemon, generatePokemon } = useImporter()
@@ -26,6 +28,10 @@ const Daycare = () => {
   const [breedingPair, setBreedingPair] = useState<BreedingPair>(
     {} as BreedingPair
   )
+  const [breeding, setBreeding] = useState<BreedingPair2>([
+    {} as Pokemon,
+    {} as Pokemon,
+  ])
   const [showStorage, setShowStorage] = useState(false)
 
   return (
@@ -232,42 +238,45 @@ const Daycare = () => {
         className="fixed inset-0 flex select-none items-center justify-center bg-black/60 text-slate-600"
       >
         <div className="fixed bottom-0 flex h-[60vh] w-full flex-col items-center justify-start rounded-t-md bg-white px-6 scrollbar-hide md:w-auto">
-          <div className="relative h-full w-full overflow-y-auto py-4 scrollbar-hide">
-            <p className="text-xl font-bold">Pokemon Storage</p>
-            <StorageGrid
-              storage={
-                Object.keys(breedingPair?.pokemon1 || {}).length === 0
-                  ? pokemonStorage
-                  : pokemonStorage.filter(
-                      (pokemon) =>
-                        pokemon.gender ===
-                          (breedingPair?.pokemon1?.gender === "male"
-                            ? "female"
-                            : "male") &&
-                        pokemon.baseData.eggGroup.some((element) =>
-                          breedingPair?.pokemon1?.baseData?.eggGroup.includes(
-                            element
+          <div className="relative h-full w-full overflow-y-auto pt-4 scrollbar-hide">
+            <div className="flex items-center justify-between">
+              <p className="text-xl font-bold">Pokemon Storage</p>
+              <HiX
+                onClick={() => setShowStorage(false)}
+                className="cursor-pointer hover:text-blue-500"
+              />
+            </div>
+            <div className="flex justify-center">
+              <StorageGrid
+                storage={
+                  Object.keys(breedingPair?.pokemon1 || {}).length === 0
+                    ? pokemonStorage
+                    : pokemonStorage.filter(
+                        (pokemon) =>
+                          pokemon.gender ===
+                            (breedingPair?.pokemon1?.gender === "male"
+                              ? "female"
+                              : "male") &&
+                          pokemon.baseData.eggGroup.some((element) =>
+                            breedingPair?.pokemon1?.baseData?.eggGroup.includes(
+                              element
+                            )
                           )
-                        )
-                    )
-              }
-              onClick={(pokemon) => {
-                setShowStorage(false)
-                setSelectedPokemon(pokemon)
-              }}
-            />
-
-            <button
-              onClick={() => setBreedingPair({} as BreedingPair)}
-              className="mt-3 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
-            >
-              Reset
-            </button>
+                      )
+                }
+                onClick={(pokemon) => {
+                  setShowStorage(false)
+                  setSelectedPokemon(pokemon)
+                }}
+              />
+            </div>
           </div>
-          <HiX
-            onClick={() => setShowStorage(false)}
-            className="absolute top-4 right-4 cursor-pointer hover:text-blue-500"
-          />
+          <button
+            onClick={() => setBreedingPair({} as BreedingPair)}
+            className="mb-4 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
+          >
+            Reset
+          </button>
         </div>
       </Dialog>
       <Dialog
@@ -313,7 +322,10 @@ const Daycare = () => {
               {selectedPokemon.ivs
                 .filter((iv) => iv > 28)
                 .map((iv, index) => (
-                  <div key={iv + index} className="">
+                  <div
+                    key={selectedPokemon.id + "_" + iv + "_" + index}
+                    className=""
+                  >
                     {iv === 31 ? "🌟" : "⭐️"}
                   </div>
                 ))}

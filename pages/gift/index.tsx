@@ -51,19 +51,19 @@ const Gift = () => {
   }, [data])
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center select-none">
+    <div className="flex h-screen w-screen select-none items-center justify-center">
       {data && Object.keys(pokemon).length > 0 && (
-        <div className="flex items-center justify-center flex-col text-slate-600">
+        <div className="flex flex-col items-center justify-center text-slate-600">
           <p className="mb-4 font-semibold">
             <span className="font-bold text-blue-500">
               {data.gift_by_pk.trainer}
             </span>{" "}
             have sent you a gift!
           </p>
-          <div className="relative bg-slate-100 rounded-md px-8 pt-4 pb-4 flex flex-col items-center justify-center">
-            <p className="absolute left-0 px-2 py-0.5 rounded-r-md text-white top-10 text-xs bg-amber-500 flex items-center justify-center">
+          <div className="relative flex flex-col items-center justify-center rounded-md bg-slate-100 px-8 pt-4 pb-4">
+            <p className="absolute left-0 top-10 flex items-center justify-center rounded-r-md bg-amber-500 px-2 py-0.5 text-xs text-white">
               {new Date(pokemon.createdAt).toLocaleDateString("en-US")}
-              <CgPokemon className="text-sm ml-1" />
+              <CgPokemon className="ml-1 text-sm" />
             </p>
             <div className="absolute inset-x-3 top-3 flex items-center justify-between">
               {pokemon.shiny && <p className="ml-1 text-sm">✨</p>}
@@ -73,26 +73,28 @@ const Gift = () => {
               />
             </div>
             <div className="flex">
-              <p className="text-blue-500 font-bold">{pokemon.baseData.name}</p>
+              <p className="font-bold text-blue-500">{pokemon.baseData.name}</p>
             </div>
-            <p className="text-sm -mt-1">{`lv. ${pokemon.level}`}</p>
+            <p className="-mt-1 text-sm">{`lv. ${pokemon.level}`}</p>
             <div className="relative h-32 w-32">
               <Image
                 src={getPokemonSprite(pokemon.baseData.sprite, pokemon.shiny)}
                 layout="fill"
               />
             </div>
-            <div className="text-xs px-2 py-0.5 flex space-x-1 bg-opacity-80">
+            <div className="flex space-x-1 bg-opacity-80 px-2 py-0.5 text-xs">
               {pokemon.ivs
                 .filter((iv) => iv > 28)
-                .map((iv) => (
-                  <div className="">{iv === 31 ? "🌟" : "⭐️"}</div>
+                .map((iv, index) => (
+                  <div key={pokemon.id + "_" + iv + "_" + index} className="">
+                    {iv === 31 ? "🌟" : "⭐️"}
+                  </div>
                 ))}
             </div>
             <div className="grid grid-cols-2 gap-x-4">
               <div className="flex flex-col items-center justify-center">
                 <p className="font-bold text-blue-500">Stats</p>
-                <div className="text-xs grid grid-cols-3 gap-x-1">
+                <div className="grid grid-cols-3 gap-x-1 text-xs">
                   <div className="flex flex-col items-center justify-center">
                     <p className="">HP</p>
                     <p className="">{pokemon.baseData.stamina}</p>
@@ -109,7 +111,7 @@ const Gift = () => {
               </div>
               <div className="flex flex-col items-center justify-center">
                 <p className="font-bold text-blue-500">IVs</p>
-                <div className="text-xs grid grid-cols-3 gap-x-1">
+                <div className="grid grid-cols-3 gap-x-1 text-xs">
                   <div className="flex flex-col items-center justify-center">
                     <p className="">HP</p>
                     <p
@@ -155,7 +157,7 @@ const Gift = () => {
                 </div>
               </div>
             </div>
-            <p className="text-xs my-3">
+            <p className="my-3 text-xs">
               OT:{" "}
               <span className="font-semibold text-blue-500">
                 {pokemon.ot.username}
@@ -165,7 +167,7 @@ const Gift = () => {
               onClick={() => {
                 acceptGift()
               }}
-              className="bg-emerald-500 hover:bg-emerald-600 px-4 py-1 rounded-md text-white text-sm col-span-2 w-full"
+              className="col-span-2 w-full rounded-md bg-emerald-500 px-4 py-1 text-sm text-white hover:bg-emerald-600"
             >
               Accept
             </button>

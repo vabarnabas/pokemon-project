@@ -86,8 +86,8 @@ const PokemonProfile: React.FC<Props> = ({
           <div className="flex space-x-1 bg-opacity-80 px-2 py-0.5 text-xs">
             {pokemon.ivs
               .filter((iv) => iv > 28)
-              .map((iv, index) => (
-                <div key={iv + index} className="">
+              .map((iv: number, index: number) => (
+                <div key={pokemon.id + "_" + iv + "_" + index} className="">
                   {iv === 31 ? "🌟" : "⭐️"}
                 </div>
               ))}

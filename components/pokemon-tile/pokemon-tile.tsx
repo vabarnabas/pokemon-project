@@ -34,7 +34,7 @@ const PokemonTile: React.FC<Props> = ({ pokemon, onClick }) => {
         {pokemon.ivs
           .filter((iv) => iv > 28)
           .map((iv, index) => (
-            <div key={iv + index} className="">
+            <div key={pokemon.id + "_" + iv + "_" + index} className="">
               {iv === 31 ? "🌟" : "⭐️"}
             </div>
           ))}

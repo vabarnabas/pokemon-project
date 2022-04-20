@@ -41,7 +41,7 @@ const Home: NextPage = () => {
   }, [battleArray])
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-start px-8 py-6 select-none overflow-x-hidden">
+    <div className="flex h-screen w-screen select-none flex-col items-center justify-start overflow-x-hidden px-8 py-6">
       <p className="mb-4 font-semibold text-blue-500">
         {JSON.stringify(battleArray) + " " + typeTrump}
       </p>
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
           <div
             onClick={() => togglePokemon(pokemon.name)}
             key={pokemon.dexId.toString() + (pokemon?.form || "")}
-            className={`flex flex-col items-center justify-center border rounded-md py-2 px-4 cursor-pointer ${
+            className={`flex cursor-pointer flex-col items-center justify-center rounded-md border py-2 px-4 ${
               battleArray.includes(pokemon.name) ? "border-blue-500" : ""
             }`}
           >
@@ -60,7 +60,10 @@ const Home: NextPage = () => {
             <p className="font-semibold text-blue-500">{pokemon.name}</p>
             <div className="flex items-center justify-center space-x-2">
               {pokemon.types.map((type) => (
-                <div className="relative h-4 w-8">
+                <div
+                  key={pokemon.dexId + "_" + pokemon.types}
+                  className="relative h-4 w-8"
+                >
                   <Image
                     layout="fill"
                     src={getTypeSprite(type?.sprite || "")}
@@ -68,16 +71,16 @@ const Home: NextPage = () => {
                 </div>
               ))}
             </div>
-            <div className="mt-1 text-xs grid grid-cols-3 gap-1">
-              <div className="text-center flex flex-col items-center justify-center">
+            <div className="mt-1 grid grid-cols-3 gap-1 text-xs">
+              <div className="flex flex-col items-center justify-center text-center">
                 <p className="">HP</p>
                 <p className="">{pokemon.stamina}</p>
               </div>
-              <div className="text-center flex flex-col items-center justify-center">
+              <div className="flex flex-col items-center justify-center text-center">
                 <p className="">ATK</p>
                 <p className="">{pokemon.attack}</p>
               </div>
-              <div className="text-center flex flex-col items-center justify-center">
+              <div className="flex flex-col items-center justify-center text-center">
                 <p className="">DEF</p>
                 <p className="">{pokemon.defense}</p>
               </div>
@@ -86,13 +89,13 @@ const Home: NextPage = () => {
               {pokemon.movePool.map((move) => (
                 <div
                   key={move.id}
-                  className="bg-slate-100 py-1 px-1 rounded-md flex flex-col items-center justify-center"
+                  className="flex flex-col items-center justify-center rounded-md bg-slate-100 py-1 px-1"
                 >
-                  <p className=" text-center text-sm">{move.name}</p>
+                  <p className="text-center text-sm">{move.name}</p>
                   <div className="relative h-4 w-8">
                     <Image layout="fill" src={getTypeSprite(move.type.name)} />
                   </div>
-                  <div className="flex space-x-2 mt-0.5 px-1">
+                  <div className="mt-0.5 flex space-x-2 px-1">
                     <div className="flex flex-col items-center justify-center text-xs">
                       <p className="">Power</p>
                       <p className="">{move.power}</p>
