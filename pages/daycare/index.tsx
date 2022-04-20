@@ -225,7 +225,7 @@ const Daycare = () => {
               Breed
             </button>
             <button
-              onClick={() => setBreedingPair({} as BreedingPair)}
+              onClick={() => setBreedingPair([])}
               className="mt-3 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
             >
               Reset
@@ -302,7 +302,7 @@ const Daycare = () => {
             </div>
           </div>
           <button
-            onClick={() => setBreedingPair({} as BreedingPair)}
+            onClick={() => setBreedingPair([])}
             className="mb-4 mt-2 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
           >
             Reset
