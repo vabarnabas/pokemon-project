@@ -14,12 +14,7 @@ import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
 import { Filter, getFilterResults } from "../../services/advanced_filter"
 
-interface BreedingPair {
-  pokemon1: Pokemon
-  pokemon2: Pokemon
-}
-
-type BreedingPair2 = [pokemon1: Pokemon, pokemon2: Pokemon]
+type BreedingPair = Pokemon[]
 
 const Daycare = () => {
   const router = useRouter()
@@ -27,13 +22,7 @@ const Daycare = () => {
   const { getPokemonSprite, getPokemon, generatePokemon } = useImporter()
   const { pokemonStorage, removePokemon, addPokemon } = usePokemonStorage()
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>({} as Pokemon)
-  const [breedingPair, setBreedingPair] = useState<BreedingPair>(
-    {} as BreedingPair
-  )
-  const [breeding, setBreeding] = useState<BreedingPair2>([
-    {} as Pokemon,
-    {} as Pokemon,
-  ])
+  const [breedingPair, setBreedingPair] = useState<BreedingPair>([])
   const [showStorage, setShowStorage] = useState(false)
 
   const filterList = [
@@ -86,8 +75,8 @@ const Daycare = () => {
       />
       <div className="flex flex-col items-center justify-center space-y-6">
         <div className="grid grid-flow-col gap-x-12">
-          {Object.keys(breedingPair?.pokemon1 || {}).length > 0 ? (
-            <PokemonTile pokemon={breedingPair.pokemon1} onClick={() => {}} />
+          {breedingPair.length > 0 ? (
+            <PokemonTile pokemon={breedingPair[0]} onClick={() => {}} />
           ) : (
             <div
               onClick={() => setShowStorage(true)}
@@ -96,9 +85,9 @@ const Daycare = () => {
               <HiPlus className="text-2xl text-slate-400 group-hover:text-blue-500" />
             </div>
           )}
-          {Object.keys(breedingPair?.pokemon1 || {}).length > 0 &&
-            (Object.keys(breedingPair.pokemon2 || {}).length > 0 ? (
-              <PokemonTile pokemon={breedingPair.pokemon2} onClick={() => {}} />
+          {breedingPair.length > 0 &&
+            (breedingPair.length > 1 ? (
+              <PokemonTile pokemon={breedingPair[1]} onClick={() => {}} />
             ) : (
               <div
                 onClick={() => setShowStorage(true)}
@@ -108,169 +97,141 @@ const Daycare = () => {
               </div>
             ))}
         </div>
-        {Object.keys(breedingPair?.pokemon1 || {}).length > 0 &&
-          Object.keys(breedingPair?.pokemon2 || {}).length > 0 && (
-            <div className="flex flex-col items-center justify-center">
-              <PokemonTile
-                pokemon={generatePokemon(
-                  [
-                    breedingPair.pokemon1.gender === "female"
-                      ? breedingPair.pokemon1.baseData.name
-                      : breedingPair.pokemon2.baseData.name,
-                  ],
-                  [1, 1],
-                  false,
-                  25,
-                  [0, 0, 0]
-                )}
-                onClick={() => {}}
-              />
-              <p className="mt-6 font-bold text-blue-500">IVs</p>
-              <div className="grid grid-cols-3 gap-x-2 text-xs">
-                <div className="flex flex-col items-center justify-center">
-                  <p className="">STA</p>
-                  <p
-                    className={`${
-                      Math.floor(
-                        (breedingPair.pokemon1.ivs[0] +
-                          breedingPair.pokemon2.ivs[0]) /
-                          2
-                      ) === 31
-                        ? "text-emerald-500"
-                        : Math.floor(
-                            (breedingPair.pokemon1.ivs[0] +
-                              breedingPair.pokemon2.ivs[0]) /
-                              2
-                          ) > 28
-                        ? "text-blue-500"
-                        : ""
-                    }`}
-                  >
-                    {[
-                      breedingPair.pokemon1.ivs[0],
-                      breedingPair.pokemon2.ivs[0],
-                    ]
-                      .sort((a, b) => {
-                        if (a > b) {
-                          return 1
-                        }
-                        return -1
-                      })
-                      .join(" - ")}
-                  </p>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <p className="">ATK</p>
-                  <p
-                    className={`${
-                      Math.floor(
-                        (breedingPair.pokemon1.ivs[1] +
-                          breedingPair.pokemon2.ivs[1]) /
-                          2
-                      ) === 31
-                        ? "text-emerald-500"
-                        : Math.floor(
-                            (breedingPair.pokemon1.ivs[1] +
-                              breedingPair.pokemon2.ivs[1]) /
-                              2
-                          ) > 28
-                        ? "text-blue-500"
-                        : ""
-                    }`}
-                  >
-                    {[
-                      breedingPair.pokemon1.ivs[1],
-                      breedingPair.pokemon2.ivs[1],
-                    ]
-                      .sort((a, b) => {
-                        if (a > b) {
-                          return 1
-                        }
-                        return -1
-                      })
-                      .join(" - ")}
-                  </p>
-                </div>
-                <div className="flex flex-col items-center justify-center">
-                  <p className="">DEF</p>
-                  <p
-                    className={`${
-                      Math.floor(
-                        (breedingPair.pokemon1.ivs[2] +
-                          breedingPair.pokemon2.ivs[2]) /
-                          2
-                      ) === 31
-                        ? "text-emerald-500"
-                        : Math.floor(
-                            (breedingPair.pokemon1.ivs[2] +
-                              breedingPair.pokemon2.ivs[2]) /
-                              2
-                          ) > 28
-                        ? "text-blue-500"
-                        : ""
-                    }`}
-                  >
-                    {[
-                      breedingPair.pokemon1.ivs[2],
-                      breedingPair.pokemon2.ivs[2],
-                    ]
-                      .sort((a, b) => {
-                        if (a > b) {
-                          return 1
-                        }
-                        return -1
-                      })
-                      .join(" - ")}
-                  </p>
-                </div>
+        {breedingPair.length === 2 && (
+          <div className="flex flex-col items-center justify-center">
+            <PokemonTile
+              pokemon={generatePokemon(
+                [
+                  breedingPair[0].gender === "female"
+                    ? breedingPair[0].baseData.name
+                    : breedingPair[1].baseData.name,
+                ],
+                [1, 1],
+                false,
+                25,
+                [0, 0, 0]
+              )}
+              onClick={() => {}}
+            />
+            <p className="mt-6 font-bold text-blue-500">IVs</p>
+            <div className="grid grid-cols-3 gap-x-2 text-xs">
+              <div className="flex flex-col items-center justify-center">
+                <p className="">STA</p>
+                <p
+                  className={`${
+                    Math.floor(
+                      (breedingPair[0].ivs[0] + breedingPair[1].ivs[0]) / 2
+                    ) === 31
+                      ? "text-emerald-500"
+                      : Math.floor(
+                          (breedingPair[0].ivs[0] + breedingPair[1].ivs[0]) / 2
+                        ) > 28
+                      ? "text-blue-500"
+                      : ""
+                  }`}
+                >
+                  {[breedingPair[0].ivs[0], breedingPair[1].ivs[0]]
+                    .sort((a, b) => {
+                      if (a > b) {
+                        return 1
+                      }
+                      return -1
+                    })
+                    .join(" - ")}
+                </p>
               </div>
-              <button
-                onClick={() => {
-                  addPokemon(
-                    generatePokemon(
-                      [
-                        breedingPair.pokemon1.gender === "female"
-                          ? breedingPair.pokemon1.baseData.name
-                          : breedingPair.pokemon2.baseData.name,
-                      ],
-                      [1, 1],
-                      undefined,
-                      50,
-                      [
-                        Math.floor(
-                          (breedingPair.pokemon1.ivs[0] +
-                            breedingPair.pokemon2.ivs[0]) /
-                            2
-                        ),
-                        Math.floor(
-                          (breedingPair.pokemon1.ivs[1] +
-                            breedingPair.pokemon2.ivs[1]) /
-                            2
-                        ),
-                        Math.floor(
-                          (breedingPair.pokemon1.ivs[2] +
-                            breedingPair.pokemon2.ivs[2]) /
-                            2
-                        ),
-                      ]
-                    )
-                  )
-                  removePokemon(breedingPair.pokemon1.id)
-                  removePokemon(breedingPair.pokemon2.id)
-                  setBreedingPair({} as BreedingPair)
-                }}
-                className="mt-6 w-full rounded-md bg-blue-500 px-4 py-1 text-sm text-white outline-none hover:bg-blue-600"
-              >
-                Breed
-              </button>
-              <button
-                onClick={() => setBreedingPair({} as BreedingPair)}
-                className="mt-3 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
-              >
-                Reset
-              </button>
+              <div className="flex flex-col items-center justify-center">
+                <p className="">ATK</p>
+                <p
+                  className={`${
+                    Math.floor(
+                      (breedingPair[0].ivs[1] + breedingPair[1].ivs[1]) / 2
+                    ) === 31
+                      ? "text-emerald-500"
+                      : Math.floor(
+                          (breedingPair[0].ivs[1] + breedingPair[1].ivs[1]) / 2
+                        ) > 28
+                      ? "text-blue-500"
+                      : ""
+                  }`}
+                >
+                  {[breedingPair[0].ivs[1], breedingPair[1].ivs[1]]
+                    .sort((a, b) => {
+                      if (a > b) {
+                        return 1
+                      }
+                      return -1
+                    })
+                    .join(" - ")}
+                </p>
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                <p className="">DEF</p>
+                <p
+                  className={`${
+                    Math.floor(
+                      (breedingPair[0].ivs[2] + breedingPair[1].ivs[2]) / 2
+                    ) === 31
+                      ? "text-emerald-500"
+                      : Math.floor(
+                          (breedingPair[0].ivs[2] + breedingPair[1].ivs[2]) / 2
+                        ) > 28
+                      ? "text-blue-500"
+                      : ""
+                  }`}
+                >
+                  {[breedingPair[0].ivs[2], breedingPair[1].ivs[2]]
+                    .sort((a, b) => {
+                      if (a > b) {
+                        return 1
+                      }
+                      return -1
+                    })
+                    .join(" - ")}
+                </p>
+              </div>
             </div>
-          )}
+            <button
+              onClick={() => {
+                addPokemon(
+                  generatePokemon(
+                    [
+                      breedingPair[0].gender === "female"
+                        ? breedingPair[0].baseData.name
+                        : breedingPair[1].baseData.name,
+                    ],
+                    [1, 1],
+                    undefined,
+                    50,
+                    [
+                      Math.floor(
+                        (breedingPair[0].ivs[0] + breedingPair[1].ivs[0]) / 2
+                      ),
+                      Math.floor(
+                        (breedingPair[0].ivs[1] + breedingPair[1].ivs[1]) / 2
+                      ),
+                      Math.floor(
+                        (breedingPair[0].ivs[2] + breedingPair[1].ivs[2]) / 2
+                      ),
+                    ]
+                  )
+                )
+                removePokemon(breedingPair[0].id)
+                removePokemon(breedingPair[1].id)
+                setBreedingPair([])
+              }}
+              className="mt-6 w-full rounded-md bg-blue-500 px-4 py-1 text-sm text-white outline-none hover:bg-blue-600"
+            >
+              Breed
+            </button>
+            <button
+              onClick={() => setBreedingPair({} as BreedingPair)}
+              className="mt-3 w-full rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
+            >
+              Reset
+            </button>
+          </div>
+        )}
       </div>
       <Dialog
         open={showStorage}
@@ -317,16 +278,16 @@ const Daycare = () => {
             <div className="mt-16 flex justify-center">
               <StorageGrid
                 storage={getFilterResults(
-                  Object.keys(breedingPair?.pokemon1 || {}).length === 0
+                  breedingPair.length === 0
                     ? pokemonStorage
                     : pokemonStorage.filter(
                         (pokemon) =>
                           pokemon.gender ===
-                            (breedingPair?.pokemon1?.gender === "male"
+                            (breedingPair?.[0]?.gender === "male"
                               ? "female"
                               : "male") &&
                           pokemon.baseData.eggGroup.some((element) =>
-                            breedingPair?.pokemon1?.baseData?.eggGroup.includes(
+                            breedingPair?.[0]?.baseData?.eggGroup.includes(
                               element
                             )
                           )
@@ -474,20 +435,10 @@ const Daycare = () => {
             <div className="grid w-full grid-cols-2 gap-x-3 gap-y-3">
               <button
                 onClick={() => {
-                  if (breedingPair?.pokemon1 === undefined) {
-                    setBreedingPair({
-                      ...breedingPair,
-                      pokemon1: selectedPokemon,
-                    })
-                    setSelectedPokemon({} as Pokemon)
+                  if (breedingPair.length < 2) {
+                    breedingPair.push(selectedPokemon)
                   }
-                  if (breedingPair?.pokemon1 !== undefined) {
-                    setBreedingPair({
-                      ...breedingPair,
-                      pokemon2: selectedPokemon,
-                    })
-                    setSelectedPokemon({} as Pokemon)
-                  }
+                  setSelectedPokemon({} as Pokemon)
                 }}
                 className="${ selectedPokemon.level < 100 col-span-2 rounded-md bg-blue-500 px-4 py-1 text-sm text-white outline-none hover:bg-blue-600"
               >
