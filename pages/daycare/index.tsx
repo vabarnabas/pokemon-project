@@ -1,4 +1,4 @@
-import { Dialog } from "@headlessui/react"
+import { Dialog, Transition } from "@headlessui/react"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
@@ -238,7 +238,17 @@ const Daycare = () => {
         onClose={setShowStorage}
         className="fixed inset-0 flex select-none items-center justify-center bg-black/60 text-slate-600"
       >
-        <div className="fixed bottom-0 flex h-[60vh] w-full min-w-[304px] flex-col items-center justify-start overflow-hidden rounded-t-md bg-white px-6 scrollbar-hide md:w-auto">
+        <Transition
+          className="fixed bottom-0 flex h-[60vh] w-full min-w-[304px] flex-col items-center justify-start overflow-hidden rounded-t-md bg-white px-6 scrollbar-hide md:w-auto"
+          show={showStorage}
+          appear={true}
+          enter="transition-all duration-500"
+          enterFrom="-bottom-64"
+          enterTo=""
+          leave="transition-all duration-500"
+          leaveFrom=""
+          leaveTo="-bottom-64"
+        >
           <div className="absolute z-10 w-full bg-white px-6 pt-4">
             <div className="flex items-center justify-between">
               <p className="text-xl font-bold">Pokemon Storage</p>
@@ -307,7 +317,7 @@ const Daycare = () => {
           >
             Reset
           </button>
-        </div>
+        </Transition>
       </Dialog>
       <Dialog
         open={Object.keys(selectedPokemon).length > 0}
