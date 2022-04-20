@@ -16,7 +16,7 @@ const PokemonStorage = () => {
   const [activators, setActivators] = useState<string[]>([])
 
   useEffect(() => {
-    pokemonStorage.length === 0 && router.back()
+    // pokemonStorage.length === 0 && router.back()
   }, [pokemonStorage])
 
   const menuItems: MenuItem[] = [

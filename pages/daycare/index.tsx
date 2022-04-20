@@ -243,7 +243,7 @@ const Daycare = () => {
           appear
           show={showStorage}
           as="div"
-          enter="transition-all duration-500"
+          enter="ease-in-out transition-all duration-500"
           enterFrom="-bottom-64"
           enterTo=""
           leave="transition-all duration-500"

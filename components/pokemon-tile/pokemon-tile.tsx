@@ -19,9 +19,6 @@ const PokemonTile: React.FC<Props> = ({ pokemon, onClick }) => {
     <div
       key={pokemon.id}
       onClick={() => onClick(pokemon)}
-      onDoubleClick={() => {
-        removePokemon(pokemon.id)
-      }}
       className="relative aspect-square h-20 w-20 cursor-pointer overflow-hidden rounded-md border p-2 hover:border-blue-500"
     >
       <div className="relative h-full w-full">

@@ -37,10 +37,10 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
   integrity sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==
 
-"@headlessui/react@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.5.0.tgz#483b44ba2c8b8d4391e1d2c863898d7dd0cc0296"
-  integrity sha512-aaRnYxBb3MU2FNJf3Ut9RMTUqqU3as0aI1lQhgo2n9Fa67wRu14iOGqx93xB+uMNVfNwZ5B3y/Ndm7qZGuFeMQ==
+"@headlessui/react@^0.0.0-insiders.591b328":
+  version "0.0.0-insiders.591b328"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-0.0.0-insiders.591b328.tgz#9187923c42b5c2b05d5b2b0337698b572bd09de1"
+  integrity sha512-YOdY3GWYq2l/5gE5NRwjpFCHii8Rni9ozDWg2/8rnSEWuniLxoeiz27+Nwmjbl9iXnIHtBw+ADE2IsDTJ4LLSA==
 
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.5"
