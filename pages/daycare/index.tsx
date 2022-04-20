@@ -239,7 +239,7 @@ const Daycare = () => {
         className="fixed inset-0 flex select-none items-center justify-center bg-black/60 text-slate-600"
       >
         <Transition
-          className="fixed bottom-0 flex h-[60vh] w-full min-w-[304px] flex-col items-center justify-start overflow-hidden rounded-t-md bg-white px-6 scrollbar-hide md:w-auto"
+          className="fixed bottom-0 flex h-[60vh] min-w-[304px] flex-col items-center justify-start overflow-hidden rounded-t-md bg-white px-6 scrollbar-hide"
           appear
           show={showStorage}
           as="div"
