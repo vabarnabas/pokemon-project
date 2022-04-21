@@ -19,33 +19,32 @@ const Navbar: React.FC<Props> = ({ menuItems }) => {
       </p>
       {menuItems.length > 1 ? (
         <Menu as="div" className="relative flex">
-          <Menu.Button className="flex items-center justify-center rounded-md text-sm font-semibold outline-none hover:text-blue-500">
+          <Menu.Button className="flex items-center justify-center space-y-2 rounded-md text-sm font-semibold outline-none hover:text-blue-500">
             Menu
             <HiChevronDown className="ml-1 text-lg" />
           </Menu.Button>
           <Menu.Items
             as="div"
-            className="bg-soft-gray absolute top-[110%] right-0 flex w-max origin-top-right flex-col items-end justify-center gap-y-2 rounded-md border bg-white px-1 py-1 outline-none"
+            className="bg-soft-gray absolute top-[110%] right-0 flex w-max origin-top-right flex-col items-end justify-center space-y-1 rounded-md border bg-white px-2 py-2 outline-none"
           >
-            <div>
-              {menuItems.map((item) => (
-                <Menu.Item
-                  onClick={() => item?.action && item?.action()}
-                  as="div"
-                  key={item.name}
-                >
-                  {({ active }) => (
-                    <div
-                      className={`flex cursor-pointer items-center justify-end rounded-md px-2.5 py-1 text-right text-sm font-semibold ${
-                        active ? "bg-blue-500 text-slate-50" : ""
-                      }`}
-                    >
-                      <p>{item.name}</p>
-                    </div>
-                  )}
-                </Menu.Item>
-              ))}
-            </div>
+            {menuItems.map((item) => (
+              <Menu.Item
+                onClick={() => item?.action && item?.action()}
+                as="div"
+                className="w-full"
+                key={item.name}
+              >
+                {({ active }) => (
+                  <div
+                    className={`flex w-full cursor-pointer items-center justify-end rounded-md px-2.5 py-1 text-right text-sm font-semibold ${
+                      active ? "bg-blue-500 text-slate-50" : ""
+                    }`}
+                  >
+                    <p>{item.name}</p>
+                  </div>
+                )}
+              </Menu.Item>
+            ))}
           </Menu.Items>
         </Menu>
       ) : (
