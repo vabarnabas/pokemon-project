@@ -54,10 +54,10 @@ const RandomPokemon = () => {
 
   return (
     <div className="relative flex h-screen w-screen select-none items-center justify-center text-slate-600">
-      <Navbar menuItems={menuItems} />
       <RouteIndicator
         route={getRoute((Array.isArray(route) ? route[0] : route) || "route1")}
       />
+      <Navbar menuItems={menuItems} />
       {Object.keys(randomPokemon).length > 0 && (
         <div className="flex flex-col items-center justify-center">
           <p className="">{`${randomPokemon.baseData.name} (lv. ${

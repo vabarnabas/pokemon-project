@@ -12,7 +12,7 @@ import { Filter, getFilterResults } from "../../services/advanced_filter"
 const PokemonStorage = () => {
   const router = useRouter()
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>({} as Pokemon)
-  const { pokemonStorage, removePokemon, clearStorage } = usePokemonStorage()
+  const { pokemonStorage, modifyPokemon, clearStorage } = usePokemonStorage()
   const [activators, setActivators] = useState<string[]>([])
 
   useEffect(() => {
@@ -62,23 +62,37 @@ const PokemonStorage = () => {
   ]
 
   return (
-    <div className="relative flex h-screen w-screen select-none items-start justify-center overflow-x-hidden px-8 text-slate-600">
+    <div className="relative flex h-screen w-screen select-none items-start justify-center overflow-x-hidden px-8 text-slate-600 scrollbar-hide">
       <div className="pt-24">
         <StorageGrid
           storage={getFilterResults(pokemonStorage, filters)}
           onClick={(selectedPokemon) => setSelectedPokemon(selectedPokemon)}
         />
       </div>
-      <Navbar menuItems={menuItems} />
       <StorageFilter
         activators={activators}
         setActivators={(activators) => setActivators(activators)}
       />
-
+      <Navbar menuItems={menuItems} />
       <PokemonProfile
         open={Object.keys(selectedPokemon).length > 0}
-        setSelectedPokemon={(pokemon) => setSelectedPokemon(pokemon)}
         pokemon={selectedPokemon}
+        onChange={(pokemon) => setSelectedPokemon(pokemon)}
+        onClose={() => setSelectedPokemon({} as Pokemon)}
+        buttons={[
+          {
+            name: "Level Up",
+            color: selectedPokemon.level < 100 ? "bg-blue-500" : "bg-slate-300",
+            span: 2,
+            action: () => {
+              if (selectedPokemon.level < 100) {
+                selectedPokemon.level++
+                modifyPokemon(selectedPokemon)
+                setSelectedPokemon(selectedPokemon)
+              }
+            },
+          },
+        ]}
       />
     </div>
   )

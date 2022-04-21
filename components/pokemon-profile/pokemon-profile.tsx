@@ -13,16 +13,26 @@ import { v4 as uuidv4 } from "uuid"
 import { useRouter } from "next/router"
 import { MdOutlineMale, MdOutlineFemale } from "react-icons/md"
 
+interface Button {
+  name: string
+  color: "bg-blue-500" | "bg-emerald-500" | "bg-rose-500" | "bg-slate-300"
+  span: 1 | 2
+  action(...params: any): void
+}
 interface Props {
   open: boolean
   pokemon: Pokemon
-  setSelectedPokemon: (pokemon: Pokemon) => void
+  onChange(pokemon: Pokemon): void
+  onClose(...params: any): void
+  buttons?: Button[]
 }
 
 const PokemonProfile: React.FC<Props> = ({
   open,
   pokemon,
-  setSelectedPokemon,
+  onChange,
+  onClose,
+  buttons,
 }) => {
   const router = useRouter()
   const { getPokemonSprite } = useImporter()
@@ -52,7 +62,7 @@ const PokemonProfile: React.FC<Props> = ({
     <Transition show={open} appear as={Fragment}>
       <Dialog
         as="div"
-        onClose={() => setSelectedPokemon({} as Pokemon)}
+        onClose={() => onChange({} as Pokemon)}
         className="fixed inset-0 flex select-none items-center justify-center text-slate-600"
       >
         <Transition.Child
@@ -84,7 +94,7 @@ const PokemonProfile: React.FC<Props> = ({
               <div className="absolute inset-x-3 top-3 flex items-center justify-between">
                 {pokemon.shiny && <p className="ml-1 text-sm">✨</p>}
                 <HiX
-                  onClick={() => setSelectedPokemon({} as Pokemon)}
+                  onClick={() => onChange({} as Pokemon)}
                   className="ml-auto cursor-pointer text-lg hover:text-blue-500"
                 />
               </div>
@@ -187,40 +197,19 @@ const PokemonProfile: React.FC<Props> = ({
                   {pokemon.ot.username}
                 </span>
               </p>
-              <div className="grid grid-cols-2 gap-x-3 gap-y-3">
-                <button
-                  onClick={() => {
-                    if (pokemon.level < 100) {
-                      pokemon.level++
-                      modifyPokemon(pokemon)
-                      setSelectedPokemon(pokemon)
-                    }
-                  }}
-                  className={`col-span-2 rounded-md px-4 py-1 text-sm text-white outline-none ${
-                    pokemon.level < 100
-                      ? "bg-blue-500 hover:bg-blue-600"
-                      : "bg-slate-300"
-                  }`}
-                >
-                  Level Up
-                </button>
-                <button
-                  onClick={() => {
-                    removePokemon(pokemon.id)
-                    setSelectedPokemon({} as Pokemon)
-                  }}
-                  className="rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
-                >
-                  Release
-                </button>
-                <button
-                  onClick={() => {
-                    onGiftCreation(pokemon)
-                  }}
-                  className="rounded-md bg-rose-500 px-4 py-1 text-sm text-white outline-none hover:bg-rose-600"
-                >
-                  Gift
-                </button>
+              <div className="grid w-full grid-cols-2 gap-x-3 gap-y-3">
+                {buttons &&
+                  buttons.map((button) => (
+                    <button
+                      key={button.name}
+                      onClick={() => button.action()}
+                      className={`${button.color} ${
+                        button.span === 1 ? "col-span-1" : "col-span-2"
+                      } w-full rounded-md px-4 py-1 text-sm text-white outline-none`}
+                    >
+                      {button.name}
+                    </button>
+                  ))}
               </div>
             </div>
           </Transition.Child>

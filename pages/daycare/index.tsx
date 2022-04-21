@@ -254,11 +254,11 @@ const Daycare = () => {
             className="fixed bottom-0 flex h-[60vh] min-w-[304px] flex-col items-center justify-start overflow-hidden rounded-t-md bg-white px-6 scrollbar-hide"
             as="div"
             enter="ease-in-out transition-all duration-500"
-            enterFrom="-bottom-64"
+            enterFrom="-bottom-[60%]"
             enterTo=""
             leave="transition-all ease-in-out duration-500"
             leaveFrom=""
-            leaveTo="-bottom-64"
+            leaveTo="-bottom-[60%]"
           >
             <div className="absolute z-10 w-full bg-white px-6 pt-4">
               <div className="flex items-center justify-between">
@@ -371,7 +371,10 @@ const Daycare = () => {
                 <div className="absolute inset-x-3 top-3 flex items-center justify-between">
                   {selectedPokemon.shiny && <p className="ml-1 text-sm">✨</p>}
                   <HiX
-                    onClick={() => setSelectedPokemon({} as Pokemon)}
+                    onClick={() => {
+                      setSelectedPokemon({} as Pokemon)
+                      setShowStorage(true)
+                    }}
                     className="ml-auto cursor-pointer text-lg hover:text-blue-500"
                   />
                 </div>

@@ -13,7 +13,6 @@ interface Props {
 
 const PokemonTile: React.FC<Props> = ({ pokemon, onClick }) => {
   const { getPokemonSprite } = useImporter()
-  const { removePokemon } = usePokemonStorage()
 
   return (
     <div
@@ -23,6 +22,8 @@ const PokemonTile: React.FC<Props> = ({ pokemon, onClick }) => {
     >
       <div className="relative h-full w-full">
         <Image
+          alt={pokemon.baseData.name}
+          quality={1}
           src={getPokemonSprite(pokemon.baseData.sprite, pokemon.shiny)}
           layout="fill"
         />

@@ -21,4 +21,6 @@ export const getStars = (
   return ivs.filter((iv) => iv > 28).length
 }
 
-export const pokemonToSearchableString = (pokemon: Pokemon) => {}
+
+
+
