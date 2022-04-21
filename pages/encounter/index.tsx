@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import Navbar, { MenuItem } from "../../components/navbar/navbar"
 import PokemonTile from "../../components/pokemon-tile/pokemon-tile"
 import RouteIndicator from "../../components/route-indicator/route-indicator"
+import StoragePopup from "../../components/storage-popup/storage-popup"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon, usePokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
@@ -16,6 +17,7 @@ const RandomPokemon = () => {
   const [randomPokemon, setRandomPokemon] = useState<Pokemon>({} as Pokemon)
   const { pokemonStorage, addPokemon, removePokemon } = usePokemonStorage()
   const { generatePokemon, getPokemonSprite, getRoute } = useImporter()
+  const [showStorage, setShowStorage] = useState(false)
 
   const { r: route } = router.query
 
@@ -43,12 +45,12 @@ const RandomPokemon = () => {
 
   const menuItems: MenuItem[] = [
     {
-      name: "Daycare",
-      action: () => router.push("/daycare"),
-    },
-    {
       name: "Pokemon Storage",
       action: () => pokemonStorage.length > 0 && router.push("/storage"),
+    },
+    {
+      name: "Daycare",
+      action: () => router.push("/daycare"),
     },
   ]
 
@@ -98,7 +100,13 @@ const RandomPokemon = () => {
           >
             Reroll
           </button>
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center py-2">
+          <button
+            onClick={() => setShowStorage(true)}
+            className="absolute bottom-8 rounded-md bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+          >
+            Storage
+          </button>
+          {/* <div className="absolute inset-x-0 bottom-0 flex items-center justify-center py-2">
             <div className="grid grid-cols-3 grid-rows-2 gap-2">
               {pokemonStorage.slice(0, 6).map((pokemon) => (
                 <PokemonTile
@@ -108,9 +116,15 @@ const RandomPokemon = () => {
                 />
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       )}
+      <StoragePopup
+        onClose={() => setShowStorage(false)}
+        onPokemonClick={() => {}}
+        storage={pokemonStorage}
+        show={showStorage}
+      />
     </div>
   )
 }

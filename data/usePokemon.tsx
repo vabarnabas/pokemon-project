@@ -3,6 +3,7 @@ import { PokemonType, useTypes } from "./useTypes"
 import { v4 as uuidv4 } from "uuid"
 import { useUserStorage } from "../providers/user.provider"
 import { getWeightedArray, WeightedString } from "../services/helper"
+import { PokemonBaseItem } from "./useItems"
 
 export type EggGroup =
   | "Monster"
@@ -39,9 +40,10 @@ export interface Pokemon {
   baseData: BasePokemon
   gender: string
   level: number
+  hp: number
   ivs: [stamina: number, attack: number, defense: number]
-  move1: PokemonMove
-  move2: PokemonMove
+  moves: [move1: PokemonMove, move2: PokemonMove]
+  heldItem?: PokemonBaseItem
   shiny: boolean
   ot: {
     id: string
@@ -386,6 +388,18 @@ export const usePokemon = () => {
     ]
   }
 
+  const getPokemonHP = (pokemon: Pokemon) => {
+    return (
+      Math.floor(
+        0.01 * 2 * pokemon.baseData.stamina +
+          pokemon.ivs[0] +
+          0.5 * pokemon.level
+      ) +
+      pokemon.level +
+      10
+    )
+  }
+
   const generatePokemon = (
     pokemonPool: string[],
     levelRange: [minLevel: number, maxLevel: number],
@@ -406,13 +420,16 @@ export const usePokemon = () => {
         Math.random() * (levelRange[1] - levelRange[0]) + levelRange[0]
       ),
       shiny: isShiny ?? 1 === Math.ceil(Math.random() * (shinyChance ?? 500)),
+      hp: 1,
       ivs: ivs ?? [
         Math.floor(Math.random() * 31),
         Math.floor(Math.random() * 31),
         Math.floor(Math.random() * 31),
       ],
-      move1: pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
-      move2: pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
+      moves: [
+        pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
+        pokemon.movePool[Math.floor(Math.random() * pokemonPool.length)],
+      ],
       ot: {
         id: userStorage.id,
         username: userStorage.username,
@@ -424,6 +441,7 @@ export const usePokemon = () => {
     pokemonData,
     getPokemon,
     getPokemonSprite,
+    getPokemonHP,
     generatePokemon,
   }
 }

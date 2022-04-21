@@ -86,18 +86,48 @@ const PokemonProfile: React.FC<Props> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="relative flex flex-col items-center justify-center rounded-md bg-white px-8 pt-4 pb-4">
+            <div className="relative flex flex-col items-center justify-center rounded-md bg-white px-10 pt-4 pb-4">
               <p className="absolute left-0 top-10 flex items-center justify-center rounded-r-md bg-amber-500 px-2 py-0.5 text-xs text-white">
                 {new Date(pokemon.createdAt).toLocaleDateString("en-US")}
                 <CgPokemon className="ml-1 text-sm" />
               </p>
               <div className="absolute inset-x-3 top-3 flex items-center justify-between">
                 {pokemon.shiny && <p className="ml-1 text-sm">✨</p>}
+                <div className="ml-auto flex space-x-1 bg-opacity-80 px-2 text-xs">
+                  {pokemon.ivs
+                    .filter((iv) => iv > 28)
+                    .map((iv: number, index: number) => (
+                      <div
+                        key={pokemon.id + "_" + iv + "_" + index}
+                        className=""
+                      >
+                        {iv === 31 ? "🌟" : "⭐️"}
+                      </div>
+                    ))}
+                </div>
                 <HiX
                   onClick={() => onChange({} as Pokemon)}
                   className="ml-auto cursor-pointer text-lg hover:text-blue-500"
                 />
               </div>
+              <div className="relative -mb-2 h-32 w-32">
+                <Image
+                  src={getPokemonSprite(pokemon.baseData.sprite, pokemon.shiny)}
+                  layout="fill"
+                />
+              </div>
+              <p className="text-xs">
+                HP:{" "}
+                <span className="font-semibold text-blue-500">
+                  {Math.floor(
+                    0.01 * 2 * pokemon.baseData.stamina +
+                      pokemon.ivs[0] +
+                      0.5 * pokemon.level
+                  ) +
+                    pokemon.level +
+                    10}
+                </span>
+              </p>
               <div className="flex items-center">
                 <p className="font-bold text-blue-500">
                   {pokemon.baseData.name}
@@ -109,23 +139,8 @@ const PokemonProfile: React.FC<Props> = ({
                   <MdOutlineFemale className="ml-0.5 text-sm text-pink-500" />
                 )}
               </div>
-              <p className="-mt-1 text-sm">{`lv. ${pokemon.level}`}</p>
-              <div className="relative h-32 w-32">
-                <Image
-                  src={getPokemonSprite(pokemon.baseData.sprite, pokemon.shiny)}
-                  layout="fill"
-                />
-              </div>
-              <div className="flex space-x-1 bg-opacity-80 px-2 py-0.5 text-xs">
-                {pokemon.ivs
-                  .filter((iv) => iv > 28)
-                  .map((iv: number, index: number) => (
-                    <div key={pokemon.id + "_" + iv + "_" + index} className="">
-                      {iv === 31 ? "🌟" : "⭐️"}
-                    </div>
-                  ))}
-              </div>
-              <div className="grid grid-cols-2 gap-x-3">
+              <p className="-mt-1 text-xs">{`lv. ${pokemon.level}`}</p>
+              <div className="grid grid-cols-2 gap-x-4">
                 <div className="flex flex-col items-center justify-center">
                   <p className="font-bold text-blue-500">Stats</p>
                   <div className="grid grid-cols-3 gap-x-1 text-xs">

@@ -9,6 +9,7 @@ import ScrollContainer from "react-indiana-drag-scroll"
 import Navbar from "../../components/navbar/navbar"
 import PokemonTile from "../../components/pokemon-tile/pokemon-tile"
 import StorageGrid from "../../components/storage-grid/storage-grid"
+import StoragePopup from "../../components/storage-popup/storage-popup"
 import { useImporter } from "../../data/useImporter"
 import { Pokemon } from "../../data/usePokemon"
 import { usePokemonStorage } from "../../providers/pokemon.storage.provider"
@@ -233,7 +234,26 @@ const Daycare = () => {
           </div>
         )}
       </div>
-      <Transition show={showStorage} appear as={Fragment}>
+      <StoragePopup
+        show={showStorage}
+        storage={
+          breedingPair.length === 0
+            ? pokemonStorage
+            : pokemonStorage.filter(
+                (pokemon) =>
+                  pokemon.gender ===
+                    (breedingPair?.[0]?.gender === "male"
+                      ? "female"
+                      : "male") &&
+                  pokemon.baseData.eggGroup.some((element) =>
+                    breedingPair?.[0]?.baseData?.eggGroup.includes(element)
+                  )
+              )
+        }
+        onClose={() => setShowStorage(false)}
+        onPokemonClick={(pokemon) => setSelectedPokemon(pokemon)}
+      />
+      {/* <Transition show={showStorage} appear as={Fragment}>
         <Dialog
           as="div"
           onClose={() => setShowStorage(false)}
@@ -330,7 +350,7 @@ const Daycare = () => {
             </button>
           </Transition.Child>
         </Dialog>
-      </Transition>
+      </Transition> */}
       <Transition
         show={Object.keys(selectedPokemon).length > 0}
         appear

@@ -6,26 +6,17 @@ import { useRoutes } from "./useRoutes"
 import { useTypes } from "./useTypes"
 
 export const useImporter = () => {
-  const { typesData, getType, getTypeSprite } = useTypes()
-  const { movesData, getMove } = useMoves()
-  const { pokemonData, getPokemon, getPokemonSprite, generatePokemon } =
-    usePokemon()
-  const { getRoute, routesData } = useRoutes()
-  const { itemsData, getItem } = useItems()
+  const types = useTypes()
+  const moves = useMoves()
+  const pokemon = usePokemon()
+  const routes = useRoutes()
+  const items = useItems()
 
   return {
-    typesData,
-    movesData,
-    pokemonData,
-    getType,
-    getTypeSprite,
-    getMove,
-    getPokemon,
-    getPokemonSprite,
-    generatePokemon,
-    itemsData,
-    getItem,
-    routesData,
-    getRoute,
+    ...types,
+    ...moves,
+    ...pokemon,
+    ...routes,
+    ...items,
   }
 }

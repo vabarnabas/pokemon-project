@@ -200,7 +200,7 @@ export const useTypes = () => {
    * @returns Type's sprite.
    */
   const getTypeSprite = (fileName: string) => {
-    return `/images/types/${fileName}.png`
+    return `/images/types/${fileName}.svg`
   }
 
   const getType = (identifier: string | number) => {

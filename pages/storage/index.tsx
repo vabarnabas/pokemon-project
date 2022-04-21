@@ -2,7 +2,6 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import Navbar, { MenuItem } from "../../components/navbar/navbar"
 import PokemonProfile from "../../components/pokemon-profile/pokemon-profile"
-import PokemonTile from "../../components/pokemon-tile/pokemon-tile"
 import StorageFilter from "../../components/storage-filter/storage-filter"
 import StorageGrid from "../../components/storage-grid/storage-grid"
 import { Pokemon } from "../../data/usePokemon"
@@ -21,12 +20,12 @@ const PokemonStorage = () => {
 
   const menuItems: MenuItem[] = [
     {
-      name: "Clear",
-      action: () => clearStorage(),
-    },
-    {
       name: "Back",
       action: () => router.back(),
+    },
+    {
+      name: "Clear",
+      action: () => clearStorage(),
     },
   ]
 

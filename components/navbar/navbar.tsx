@@ -36,7 +36,7 @@ const Navbar: React.FC<Props> = ({ menuItems }) => {
               >
                 {({ active }) => (
                   <div
-                    className={`flex w-full cursor-pointer items-center justify-end rounded-md px-2.5 py-1 text-right text-sm font-semibold ${
+                    className={`flex w-full cursor-pointer items-center justify-end rounded-md px-3 py-1 text-right text-sm font-semibold ${
                       active ? "bg-blue-500 text-slate-50" : ""
                     }`}
                   >
