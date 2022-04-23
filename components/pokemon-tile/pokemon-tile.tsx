@@ -23,9 +23,11 @@ const PokemonTile: React.FC<Props> = ({ pokemon, onClick }) => {
       <div className="relative h-full w-full">
         <Image
           alt={pokemon.baseData.name}
-          quality={1}
           src={getPokemonSprite(pokemon.baseData.sprite, pokemon.shiny)}
           layout="fill"
+          objectFit="cover"
+          unoptimized
+          quality={1}
         />
       </div>
       <div className="absolute inset-x-0 top-0 flex space-x-0.5 bg-white bg-opacity-80 px-1 pt-0.5 text-xs">

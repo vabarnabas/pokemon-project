@@ -114,6 +114,9 @@ const PokemonProfile: React.FC<Props> = ({
                 <Image
                   src={getPokemonSprite(pokemon.baseData.sprite, pokemon.shiny)}
                   layout="fill"
+                  objectFit="cover"
+                  unoptimized
+                  quality={1}
                 />
               </div>
               <p className="text-xs">

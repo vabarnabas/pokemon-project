@@ -36,6 +36,7 @@ export interface BasePokemon {
 
 export interface Pokemon {
   id: string
+  nickname?: string
   createdAt: number
   baseData: BasePokemon
   gender: string

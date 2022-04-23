@@ -417,6 +417,8 @@ const Daycare = () => {
                       selectedPokemon.shiny
                     )}
                     layout="fill"
+                    objectFit="cover"
+                    unoptimized
                   />
                 </div>
                 <div className="flex space-x-1 bg-opacity-80 px-2 py-0.5 text-xs">

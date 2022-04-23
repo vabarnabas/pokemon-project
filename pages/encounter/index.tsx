@@ -68,6 +68,8 @@ const RandomPokemon = () => {
           <div className="relative h-32 w-32">
             <Image
               layout="fill"
+              objectFit="cover"
+              unoptimized
               src={getPokemonSprite(
                 randomPokemon.baseData.sprite,
                 randomPokemon.shiny

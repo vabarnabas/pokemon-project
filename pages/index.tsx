@@ -55,7 +55,13 @@ const Home: NextPage = () => {
             }`}
           >
             <div className="relative h-32 w-32">
-              <Image src={getPokemonSprite(pokemon.sprite)} layout="fill" />
+              <Image
+                src={getPokemonSprite(pokemon.sprite)}
+                layout="fill"
+                objectFit="cover"
+                unoptimized
+                quality={1}
+              />
             </div>
             <p className="font-semibold text-blue-500">{pokemon.name}</p>
             <div className="flex items-center justify-center space-x-2">
@@ -66,6 +72,9 @@ const Home: NextPage = () => {
                 >
                   <Image
                     layout="fill"
+                    objectFit="cover"
+                    unoptimized
+                    quality={1}
                     src={getTypeSprite(type?.sprite || "")}
                   />
                 </div>
@@ -93,7 +102,13 @@ const Home: NextPage = () => {
                 >
                   <p className="text-center text-sm">{move.name}</p>
                   <div className="relative h-4 w-8">
-                    <Image layout="fill" src={getTypeSprite(move.type.name)} />
+                    <Image
+                      layout="fill"
+                      objectFit="cover"
+                      unoptimized
+                      quality={1}
+                      src={getTypeSprite(move.type.name)}
+                    />
                   </div>
                   <div className="mt-0.5 flex space-x-2 px-1">
                     <div className="flex flex-col items-center justify-center text-xs">
