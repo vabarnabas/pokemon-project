@@ -26,6 +26,11 @@ const Daycare = () => {
   const [breedingPair, setBreedingPair] = useState<BreedingPair>([])
   const [showStorage, setShowStorage] = useState(false)
 
+  console.log(
+    breedingPair.length >= 1 &&
+      breedingPair.filter((object) => object.id !== breedingPair[0].id)
+  )
+
   const filterList = [
     { name: "Shiny", value: "shiny" },
     { name: "1*", value: "1*" },
@@ -77,7 +82,16 @@ const Daycare = () => {
       <div className="flex flex-col items-center justify-center space-y-6">
         <div className="grid grid-flow-col gap-x-12">
           {breedingPair.length > 0 ? (
-            <PokemonTile pokemon={breedingPair[0]} onClick={() => {}} />
+            <PokemonTile
+              pokemon={breedingPair[0]}
+              onClick={() => {
+                setBreedingPair(
+                  breedingPair.filter(
+                    (object) => object.id !== breedingPair[0].id
+                  )
+                )
+              }}
+            />
           ) : (
             <div
               onClick={() => setShowStorage(true)}
@@ -88,7 +102,16 @@ const Daycare = () => {
           )}
           {breedingPair.length > 0 &&
             (breedingPair.length > 1 ? (
-              <PokemonTile pokemon={breedingPair[1]} onClick={() => {}} />
+              <PokemonTile
+                pokemon={breedingPair[1]}
+                onClick={() => {
+                  setBreedingPair(
+                    breedingPair.filter(
+                      (object) => object.id !== breedingPair[1].id
+                    )
+                  )
+                }}
+              />
             ) : (
               <div
                 onClick={() => setShowStorage(true)}
@@ -251,7 +274,10 @@ const Daycare = () => {
               )
         }
         onClose={() => setShowStorage(false)}
-        onPokemonClick={(pokemon) => setSelectedPokemon(pokemon)}
+        onPokemonClick={(pokemon) => {
+          setSelectedPokemon(pokemon)
+          setShowStorage(false)
+        }}
       />
       {/* <Transition show={showStorage} appear as={Fragment}>
         <Dialog
@@ -357,7 +383,10 @@ const Daycare = () => {
         as={Fragment}
       >
         <Dialog
-          onClose={() => setSelectedPokemon({} as Pokemon)}
+          onClose={() => {
+            setSelectedPokemon({} as Pokemon)
+            setShowStorage(true)
+          }}
           className="fixed inset-0 flex select-none items-center justify-center text-slate-600"
         >
           <Transition.Child
