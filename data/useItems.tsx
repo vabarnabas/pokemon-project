@@ -6,6 +6,7 @@ export type PokemonItemCategory =
   | "Medicine"
   | "Pokeballs"
 export interface PokemonBaseItem {
+  id: number
   name: string
   description: string
   category: PokemonItemCategory
@@ -22,6 +23,7 @@ export interface PokemonItem {
 export const useItems = () => {
   const itemsData: PokemonBaseItem[] = [
     {
+      id: 1,
       name: "Rare Candy",
       description:
         "A candy that is packed with energy. It raises the level of a single Pokémon by one.",

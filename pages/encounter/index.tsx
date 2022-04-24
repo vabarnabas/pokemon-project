@@ -2,7 +2,6 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import Navbar, { MenuItem } from "../../components/navbar/navbar"
-import PokemonTile from "../../components/pokemon-tile/pokemon-tile"
 import RouteIndicator from "../../components/route-indicator/route-indicator"
 import StoragePopup from "../../components/storage-popup/storage-popup"
 import { useImporter } from "../../data/useImporter"
@@ -47,6 +46,10 @@ const RandomPokemon = () => {
     {
       name: "Pokemon Storage",
       action: () => pokemonStorage.length > 0 && router.push("/storage"),
+    },
+    {
+      name: "Item Bag",
+      action: () => pokemonStorage.length > 0 && router.push("/inventory"),
     },
     {
       name: "Daycare",

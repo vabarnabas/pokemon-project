@@ -34,7 +34,7 @@ const PokemonProfile: React.FC<Props> = ({
   buttons,
 }) => {
   const router = useRouter()
-  const { getPokemonSprite } = useImporter()
+  const { getPokemonSprite, getTypeSprite } = useImporter()
   const { userStorage } = useUserStorage()
   const { removePokemon, modifyPokemon } = usePokemonStorage()
   const [, createGift] = useMutation(mutationCreateGift)
@@ -86,10 +86,6 @@ const PokemonProfile: React.FC<Props> = ({
             leaveTo="opacity-0"
           >
             <div className="relative flex flex-col items-center justify-center rounded-md bg-white px-10 pt-4 pb-4">
-              <p className="absolute left-0 top-10 flex items-center justify-center rounded-r-md bg-amber-500 px-2 py-0.5 text-xs text-white">
-                {new Date(pokemon.createdAt).toLocaleDateString("en-US")}
-                <CgPokemon className="ml-1 text-sm" />
-              </p>
               <div className="absolute inset-x-3 top-3 flex items-center justify-between">
                 {pokemon.shiny && <p className="ml-1 text-sm">✨</p>}
                 <div className="ml-auto flex space-x-1 bg-opacity-80 px-2 text-xs">
@@ -142,6 +138,16 @@ const PokemonProfile: React.FC<Props> = ({
                 )}
               </div>
               <p className="-mt-1 text-xs">{`lv. ${pokemon.level}`}</p>
+              <div className="my-2 flex space-x-2">
+                {pokemon.baseData.types.map((type) => (
+                  <div className="relative h-4 w-4">
+                    <Image
+                      src={getTypeSprite(type?.name || "")}
+                      layout="fill"
+                    />
+                  </div>
+                ))}
+              </div>
               <div className="grid grid-cols-2 gap-x-4">
                 <div className="flex flex-col items-center justify-center">
                   <p className="font-bold text-blue-500">Stats</p>
@@ -230,6 +236,10 @@ const PokemonProfile: React.FC<Props> = ({
                     </button>
                   ))}
               </div>
+              <p className="absolute left-0 top-10 flex items-center justify-center rounded-r-md bg-amber-500 px-2 py-0.5 text-xs text-white">
+                {new Date(pokemon.createdAt).toLocaleDateString("en-US")}
+                <CgPokemon className="ml-1 text-sm" />
+              </p>
             </div>
           </Transition.Child>
         )}

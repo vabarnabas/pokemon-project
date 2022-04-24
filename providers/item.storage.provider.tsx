@@ -6,33 +6,35 @@ import React, {
   useReducer,
   useState,
 } from "react"
-import { Pokemon } from "../data/usePokemon"
+import { PokemonItem } from "../data/useItems"
 
 type Action =
-  | { type: "add_pokemon"; pokemon: Pokemon }
-  | { type: "remove_pokemon"; id: string }
-  | { type: "modify_pokemon"; pokemon: Pokemon }
-  | { type: "set_storage"; storage: Pokemon[] }
+  | { type: "add_item"; item: PokemonItem }
+  | { type: "modify_item"; item: PokemonItem }
+  | { type: "remove_item"; id: number }
+  | { type: "set_storage"; storage: PokemonItem[] }
   | { type: "clear_storage" }
 
 interface Context {
-  pokemonStorage: Pokemon[]
-  addPokemon: (pokemon: Pokemon) => void
-  removePokemon: (id: string) => void
-  modifyPokemon: (pokemon: Pokemon) => void
+  itemStorage: PokemonItem[]
+  addItem: (item: PokemonItem) => void
+  modifyItem: (item: PokemonItem) => void
+  removeItem: (id: number) => void
   clearStorage: () => void
 }
 
 const reducer = (state: any, action: Action) => {
   switch (action.type) {
-    case "add_pokemon":
-      return [...state, action.pokemon]
-    case "remove_pokemon":
-      return state.filter((pokemon: Pokemon) => pokemon.id !== action.id)
-    case "modify_pokemon":
+    case "add_item":
+      return [...state, action.item]
+    case "remove_item":
+      return state.filter((item: PokemonItem) => item.item.id !== action.id)
+    case "modify_item":
       return [
-        ...state.filter((pokemon: Pokemon) => pokemon.id !== action.pokemon.id),
-        action.pokemon,
+        ...state.filter(
+          (item: PokemonItem) => item.item.id !== action.item.item.id
+        ),
+        action.item,
       ]
     case "set_storage":
       return action.storage
@@ -55,16 +57,16 @@ export const ItemStorageProvider: React.FC<Props> = ({ children }) => {
 
   const actions = useMemo(
     () => ({
-      addPokemon: (pokemon: Pokemon) => {
-        dispatch({ type: "add_pokemon", pokemon })
+      addItem: (item: PokemonItem) => {
+        dispatch({ type: "add_item", item })
       },
-      removePokemon: (id: string) => {
-        dispatch({ type: "remove_pokemon", id })
+      removeItem: (id: number) => {
+        dispatch({ type: "remove_item", id })
       },
-      modifyPokemon: (pokemon: Pokemon) => {
-        dispatch({ type: "modify_pokemon", pokemon })
+      modifyItem: (item: PokemonItem) => {
+        dispatch({ type: "modify_item", item })
       },
-      setStorage: (storage: Pokemon[]) => {
+      setStorage: (storage: PokemonItem[]) => {
         dispatch({
           type: "set_storage",
           storage,
@@ -78,20 +80,18 @@ export const ItemStorageProvider: React.FC<Props> = ({ children }) => {
   )
 
   useEffect(() => {
-    actions.setStorage(
-      JSON.parse(localStorage.getItem("pokemonStorage") || "[]")
-    )
+    actions.setStorage(JSON.parse(localStorage.getItem("itemStorage") || "[]"))
     setFetching(false)
   }, [])
 
   useEffect(() => {
     if (!fetching) {
-      localStorage.setItem("pokemonStorage", JSON.stringify(state))
+      localStorage.setItem("itemStorage", JSON.stringify(state))
     }
   }, [state])
 
   return (
-    <ItemStorageContext.Provider value={{ pokemonStorage: state, ...actions }}>
+    <ItemStorageContext.Provider value={{ itemStorage: state, ...actions }}>
       {children}
     </ItemStorageContext.Provider>
   )
