@@ -16,13 +16,13 @@ import { MdOutlineMale, MdOutlineFemale } from "react-icons/md"
 interface Button {
   name: string
   color: "bg-blue-500" | "bg-emerald-500" | "bg-rose-500" | "bg-slate-300"
+  hoverColor: "bg-blue-600" | "bg-emerald-600" | "bg-rose-600" | "bg-slate-300"
   span: 1 | 2
-  action(...params: any): void
+  action: (...params: any) => void
 }
 interface Props {
   open: boolean
   pokemon: Pokemon
-  onChange(pokemon: Pokemon): void
   onClose(...params: any): void
   buttons?: Button[]
 }
@@ -30,7 +30,6 @@ interface Props {
 const PokemonProfile: React.FC<Props> = ({
   open,
   pokemon,
-  onChange,
   onClose,
   buttons,
 }) => {
@@ -62,7 +61,7 @@ const PokemonProfile: React.FC<Props> = ({
     <Transition show={open} appear as={Fragment}>
       <Dialog
         as="div"
-        onClose={() => onChange({} as Pokemon)}
+        onClose={() => onClose()}
         className="fixed inset-0 flex select-none items-center justify-center text-slate-600"
       >
         <Transition.Child
@@ -106,7 +105,7 @@ const PokemonProfile: React.FC<Props> = ({
                     ))}
                 </div>
                 <HiX
-                  onClick={() => onChange({} as Pokemon)}
+                  onClick={() => onClose()}
                   className="ml-auto cursor-pointer text-lg hover:text-blue-500"
                 />
               </div>
@@ -223,7 +222,9 @@ const PokemonProfile: React.FC<Props> = ({
                       onClick={() => button.action()}
                       className={`${button.color} ${
                         button.span === 1 ? "col-span-1" : "col-span-2"
-                      } w-full rounded-md px-4 py-1 text-sm text-white outline-none`}
+                      } w-full rounded-md px-4 py-1 text-sm text-white outline-none hover:${
+                        button.hoverColor
+                      }`}
                     >
                       {button.name}
                     </button>

@@ -76,12 +76,12 @@ const PokemonStorage = () => {
       <PokemonProfile
         open={Object.keys(selectedPokemon).length > 0}
         pokemon={selectedPokemon}
-        onChange={(pokemon) => setSelectedPokemon(pokemon)}
         onClose={() => setSelectedPokemon({} as Pokemon)}
         buttons={[
           {
             name: "Level Up",
             color: selectedPokemon.level < 100 ? "bg-blue-500" : "bg-slate-300",
+            hoverColor: "bg-blue-600",
             span: 2,
             action: () => {
               if (selectedPokemon.level < 100) {
